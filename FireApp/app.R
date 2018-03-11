@@ -60,7 +60,7 @@ pal <- colorNumeric(c("#0C2C84", "#41B6C4", "#FFFFCC"), values(tiff_stack),
 ui <- dashboardPage(
   
   
-  dashboardHeader(title = "Title"),
+  dashboardHeader(title = "Fire Severity"),
   
   
   dashboardSidebar(
@@ -93,7 +93,8 @@ ui <- dashboardPage(
                     selectInput(inputId = "bincolor",
                                 label = "Color",
                                 choices = c("firebrick", "forestgreen", "midnightblue"),
-                                selected = "firebrick"))
+                                selected = "firebrick")),
+                tabBox(tabPanel("Summary", verbatimTextOutput("summary")))
               )),
       
       tabItem(tabName = "tab_2",
@@ -136,9 +137,17 @@ server <- function(input, output){
     x    <- SDI260_CFL_Change$CFL_Change 
     bins <- seq(min(x), max(x), length.out = input$bins + 1)
     
+    output$summary <- renderPrint({
+      x <- SDI260_CFL_Change$CFL_Change             # Define x again
+      summary(x, digits = 3)
+    })
+    
     # draw the histogram with the specified number of bins
     hist(x, breaks = bins, border = 'white', col = input$bincolor, main = "Change in Fire Severity After Treatment", xlab = "Change in Conditional Flame Length (ft)")
   })
+  
+  
+  
   
   output$my_graph2 <- renderLeaflet({
     
