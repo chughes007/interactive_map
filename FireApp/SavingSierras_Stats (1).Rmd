@@ -1,0 +1,4043 @@
+---
+title: "Saving Sierras Stats"
+author: "Chris Hughes"
+date: "1/24/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r Load Packages, warning = FALSE }
+
+library(tidyverse)
+library(ggplot2)
+
+
+# LOAD CODE FOR 1000 vs 10000 fires
+
+
+```
+
+
+
+
+
+```{r}
+
+Subset_2000 <- read_csv("~/Documents/Bren School of Environmental Science and Management/Winter2018/GP Documents/Subset_2000.csv")
+
+
+SDI260_CFL_Change <- Subset_2000 %>% 
+  mutate(CFL_Change = Average_260 - Average_nt) %>% 
+  select(CFL_Change)
+
+
+```
+
+```{r Priimized Data Import}
+
+Subset_2000_Pri <- read_csv("~/Documents/Bren School of Environmental Science and Management/Winter2018/GP Documents/Subset_2000_Pri.csv")
+
+
+```
+
+# Methods
+
+  
+ 1) Data Wrangling 
+   a) Import Dataset (Excel.csv with columns for each year)
+   b) Select Data column for year of interest
+   c) Filter column so it contains pixels with points greater than zero
+   d) Sort (Using arrange function) so that higher flame lengths are on the top
+   e) Add a column called CFL that is the same as the Flame Length column, then remove Flame Length column (so that you're left with columns for each year called CFL to facilitate further data analysis)
+   f) Subset to whatever dataset you desire (upper quartile/upper bins); See further instructions before subset coding
+   g) Do any stats as you so please
+   
+ 2) Data Visualization in GGPlot
+   a) Find
+   
+   
+
+
+
+
+
+
+```{r NT VS 260 Quartile Comparisons}
+
+
+
+```
+
+
+
+```{r Mean Quartile Flame Length}
+
+
+```
+
+
+
+Data Preparation
+
+Find mean CFL for each treatment in each year
+
+Create vectors for mean CFL each treatment type over each year
+
+
+```{#r Data Preparation (Old code kept for reference)}
+
+# Prep for all data, not bins or quartiles; No SD/SE
+
+
+SDI18_260 <- mean(SDI260_18_CFL$CFL)
+SDI19_260 <- mean(SDI260_19_CFL$CFL)
+SDI20_260 <- mean(SDI260_20_CFL$CFL)
+SDI21_260 <- mean(SDI260_21_CFL$CFL)
+SDI22_260 <- mean(SDI260_22_CFL$CFL)
+SDI23_260 <- mean(SDI260_23_CFL$CFL)
+SDI24_260 <- mean(SDI260_24_CFL$CFL)
+SDI25_260 <- mean(SDI260_25_CFL$CFL)
+SDI26_260 <- mean(SDI260_26_CFL$CFL)
+SDI27_260 <- mean(SDI260_27_CFL$CFL)
+SDI28_260 <- mean(SDI260_28_CFL$CFL)
+SDI29_260 <- mean(SDI260_29_CFL$CFL)
+SDI30_260 <- mean(SDI260_30_CFL$CFL)
+SDI31_260 <- mean(SDI260_31_CFL$CFL)
+SDI32_260 <- mean(SDI260_32_CFL$CFL)
+SDI33_260 <- mean(SDI260_33_CFL$CFL)
+SDI34_260 <- mean(SDI260_34_CFL$CFL)
+SDI35_260 <- mean(SDI260_35_CFL$CFL)
+SDI36_260 <- mean(SDI260_36_CFL$CFL)
+SDI37_260 <- mean(SDI260_37_CFL$CFL)
+SDI38_260 <- mean(SDI260_38_CFL$CFL)
+SDI39_260 <- mean(SDI260_39_CFL$CFL)
+SDI40_260 <- mean(SDI260_40_CFL$CFL)
+SDI41_260 <- mean(SDI260_41_CFL$CFL)
+SDI42_260 <- mean(SDI260_42_CFL$CFL)
+SDI43_260 <- mean(SDI260_43_CFL$CFL)
+SDI44_260 <- mean(SDI260_44_CFL$CFL)
+SDI45_260 <- mean(SDI260_45_CFL$CFL)
+SDI46_260 <- mean(SDI260_46_CFL$CFL)
+SDI47_260 <- mean(SDI260_47_CFL$CFL)
+SDI48_260 <- mean(SDI260_48_CFL$CFL)
+SDI49_260 <- mean(SDI260_49_CFL$CFL)
+#SDI50_260 <- mean(SDI260_50_CFL)
+
+
+# Convert to just sd
+
+
+NT18 <- mean(NT_18_CFL$CFL)
+NT19 <- mean(NT_19_CFL$CFL)
+NT20 <- mean(NT_20_CFL$CFL)
+NT21 <- mean(NT_21_CFL$CFL)
+NT22 <- mean(NT_22_CFL$CFL)
+NT23 <- mean(NT_23_CFL$CFL)
+NT24 <- mean(NT_24_CFL$CFL)
+NT25 <- mean(NT_25_CFL$CFL)
+NT26 <- mean(NT_26_CFL$CFL)
+NT27 <- mean(NT_27_CFL$CFL)
+NT28 <- mean(NT_28_CFL$CFL)
+NT29 <- mean(NT_29_CFL$CFL)
+NT30 <- mean(NT_30_CFL$CFL)
+NT31 <- mean(NT_31_CFL$CFL)
+NT32 <- mean(NT_32_CFL$CFL)
+NT33 <- mean(NT_33_CFL$CFL)
+NT34 <- mean(NT_34_CFL$CFL)
+NT35 <- mean(NT_35_CFL$CFL)
+NT36 <- mean(NT_36_CFL$CFL)
+NT37 <- mean(NT_37_CFL$CFL)
+NT38 <- mean(NT_38_CFL$CFL)
+NT39 <- mean(NT_39_CFL$CFL)
+NT40 <- mean(NT_40_CFL$CFL)
+NT41 <- mean(NT_41_CFL$CFL)
+NT42 <- mean(NT_42_CFL$CFL)
+NT43 <- mean(NT_43_CFL$CFL)
+NT44 <- mean(NT_44_CFL$CFL)
+NT45 <- mean(NT_45_CFL$CFL)
+NT46 <- mean(NT_46_CFL$CFL)
+NT47 <- mean(NT_47_CFL$CFL)
+NT48 <- mean(NT_48_CFL$CFL)
+NT49 <- mean(NT_49_CFL$CFL)
+#NT50 <- mean(NT_50_CFL$CFL)
+
+
+
+SDI18_300 <- mean(SDI300_18_CFL$CFL)
+SDI19_300 <- mean(SDI300_19_CFL$CFL)
+SDI20_300 <- mean(SDI300_20_CFL$CFL)
+SDI21_300 <- mean(SDI300_21_CFL$CFL)
+SDI22_300 <- mean(SDI300_22_CFL$CFL)
+SDI23_300 <- mean(SDI300_23_CFL$CFL)
+SDI24_300 <- mean(SDI300_24_CFL$CFL)
+SDI25_300 <- mean(SDI300_25_CFL$CFL)
+SDI26_300 <- mean(SDI300_26_CFL$CFL)
+SDI27_300 <- mean(SDI300_27_CFL$CFL)
+SDI28_300 <- mean(SDI300_28_CFL$CFL)
+SDI29_300 <- mean(SDI300_29_CFL$CFL)
+SDI30_300 <- mean(SDI300_30_CFL$CFL)
+SDI31_300 <- mean(SDI300_31_CFL$CFL)
+SDI32_300 <- mean(SDI300_32_CFL$CFL)
+SDI33_300 <- mean(SDI300_33_CFL$CFL)
+SDI34_300 <- mean(SDI300_34_CFL$CFL)
+SDI35_300 <- mean(SDI300_35_CFL$CFL)
+SDI36_300 <- mean(SDI300_36_CFL$CFL)
+SDI37_300 <- mean(SDI300_37_CFL$CFL)
+SDI38_300 <- mean(SDI300_38_CFL$CFL)
+SDI39_300 <- mean(SDI300_39_CFL$CFL)
+SDI40_300 <- mean(SDI300_40_CFL$CFL)
+SDI41_300 <- mean(SDI300_41_CFL$CFL)
+SDI42_300 <- mean(SDI300_42_CFL$CFL)
+SDI43_300 <- mean(SDI300_43_CFL$CFL)
+SDI44_300 <- mean(SDI300_44_CFL$CFL)
+SDI45_300 <- mean(SDI300_45_CFL$CFL)
+SDI46_300 <- mean(SDI300_46_CFL$CFL)
+SDI47_300 <- mean(SDI300_47_CFL$CFL)
+SDI48_300 <- mean(SDI300_48_CFL$CFL)
+SDI49_300 <- mean(SDI300_49_CFL$CFL)
+
+
+
+
+
+MeanNT <- t(data.frame(NT18, NT19, NT20, NT21, NT22, NT23, NT24, NT25, NT26, NT27, NT28, NT29, NT30, NT31, NT32, NT33, NT34, NT35, NT36, NT37, NT38, NT39, NT40, NT41, NT42, NT43, NT44, NT45, NT46, NT47, NT48, NT49))
+
+
+#SeNT <- t(data.frame(SE18_NT, SE19_NT, SE20_NT, SE21_NT, SE22_NT, SE23_NT, SE24_NT, SE25_NT, SE26_NT, SE27_NT, SE28_NT, SE29_NT, SE30_NT, SE31_NT, SE32_NT, SE33_NT, SE34_NT, SE35_NT, SE36_NT, SE37_NT, SE38_NT, SE39_NT, SE40_NT, SE41_NT, SE42_NT, SE43_NT, SE44_NT, SE45_NT, SE46_NT, SE47_NT, SE48_NT, SE49_NT))
+
+# MeanSDI260 working, but odd format, not sure if it will be a factor
+
+
+MeanSDI260 <- t(data.frame(SDI18_260, SDI19_260, SDI20_260, SDI21_260, SDI22_260, SDI23_260, SDI24_260, SDI25_260, SDI26_260, SDI27_260, SDI28_260, SDI29_260, SDI30_260, SDI31_260, SDI32_260, SDI33_260, SDI34_260, SDI35_260, SDI36_260, SDI37_260, SDI38_260, SDI39_260, SDI40_260, SDI41_260, SDI42_260, SDI43_260, SDI44_260, SDI45_260, SDI46_260, SDI47_260, SDI48_260, SDI49_260))
+
+#Se_260 <- t(data.frame(SE18_260, SE19_260, SE20_260, SE21_260, SE22_260, SE23_260, SE24_260, SE25_260, SE26_260, SE27_260, SE28_260, SE29_260, SE30_260, SE31_260, SE32_260, SE33_260, SE34_260, SE35_260, SE36_260, SE37_260, SE38_260, SE39_260, SE40_260, SE41_260, SE42_260, SE43_260, SE44_260, SE45_260, SE46_260, SE47_260, SE48_260, SE49_260))
+
+#Se_300 <- t(data.frame(SE18_300, SE19_300, SE20_300, SE21_300, SE22_300, SE23_300, SE24_300, SE25_300, SE26_300, SE27_300, SE28_300, SE29_300, SE30_300, SE31_300, SE32_300, SE33_300, SE34_300, SE35_300, SE36_300, SE37_300, SE38_300, SE39_300, SE40_300, SE41_300, SE42_300, SE43_300, SE44_300, SE45_300, SE46_300, SE47_300, SE48_300, SE49_300))
+
+MeanSDI300 <- t(data.frame(SDI18_300, SDI19_300, SDI20_300, SDI21_300, SDI22_300, SDI23_300, SDI24_300, SDI25_300, SDI26_300, SDI27_300, SDI28_300, SDI29_300, SDI30_300, SDI31_300, SDI32_300, SDI33_300, SDI34_300, SDI35_300, SDI36_300, SDI37_300, SDI38_300, SDI39_300, SDI40_300, SDI41_300, SDI42_300, SDI43_300, SDI44_300, SDI45_300, SDI46_300, SDI47_300, SDI48_300, SDI49_300))
+
+Year <- c("2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032", "2033", "2034", "2035", "2036", "2037", "2038", "2039", "2040", "2041", "2042", "2043", "2044", "2045", "2046", "2047", "2048", "2049")
+
+
+# Especially make sure everything looks like it should at this point
+
+SDI260_Data <- data.frame(MeanSDI260, Year)
+NTData <- data.frame(MeanNT, Year)
+SDI300_Data <- data.frame(MeanSDI300, Year)
+
+SDI260_Data_Merge <- SDI260_Data %>% 
+  mutate("SDI260")
+
+colnames(SDI260_Data_Merge) <- c("CFL", "Year", "Treatment")
+
+SDI260_Data_Merge$Treatment <- as.factor(SDI260_Data_Merge$Treatment)
+
+SDI300_Data_Merge <- SDI300_Data %>% 
+  mutate("SDI300")
+
+colnames(SDI300_Data_Merge) <- c("CFL", "Year", "Treatment")
+
+SDI300_Data_Merge$Treatment <- as.factor(SDI300_Data_Merge$Treatment)
+
+NT_Data_Merge <- NTData %>% 
+  mutate("NT")
+colnames(NT_Data_Merge) <- c("CFL", "Year", "Treatment")
+
+NT_Data_Merge$Treatment <- as.factor(NT_Data_Merge$Treatment)
+
+MergedData <- rbind(SDI300_Data_Merge, NT_Data_Merge, SDI260_Data_Merge)
+
+
+
+
+
+```
+
+
+
+Data Visualization
+
+GGPlot code
+
+```{#r Data Visualization}
+
+ggplot(MergedData, aes(x = Year, y = CFL)) +
+  geom_point(aes(color = Treatment)) +
+  xlab("Year") +
+  ylab("Mean Upper Quartile Conditional Flame Length (ft)") +
+  ggtitle("Flame Length in Different Treatment Scenarios") +
+  theme_bw() +
+  scale_x_discrete(breaks = seq(2020, 2050, 5)) +
+  theme(plot.title = element_text(hjust = 0.5)) #+
+  #geom_errorbar(aes(ymin=CFL - SE, ymax = CFL - SE), width=1)
+
+
+
+# +
+ # theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+
+#geom_ribbon(aes(ymin = CFL - SE, 
+      #            ymax = CFL + SE, 
+       #           fill = Treatment)) 
+
+
+
+```
+
+
+
+
+
+
+Data Analysis: Mean, SD, SE, Combine; Graph
+
+ 2) Data Visualization in GGPlot
+   a) Find mean CFL for each treatment in each year for subset of interest
+   b) Do the same for standard deviation and standard error (using sd function and calculating standard error manually)
+   c) Create a data frame containing the mean CFL for each year; do this for each treatment, transform so that it's in a format that works for GGPlot/other tools
+   d) Do the same for standard deviation and standard error
+   e) Create a dataframe containing all the years of interest
+   f) Create a dataframe containing the year, CFL, SD and SE for each treatment type
+   g) Use mutate command to add a column to each treatment dataframe containing the treatment type
+   h) Add column names for each treatment dataframe
+   i) Set treatment column to factor (may not be necessary)
+   j) Merge treatment dataframes into one dataframe using rbind function, with columns Treatment type, SD, SE, Year, and CFL 
+   k) Plot using GGPlot
+   
+   
+
+
+```{#r GGPlot Ribbon}
+ggplot(data = MergedData_Quart, aes(x = Year, y = CFL, color = Treatment)) +
+  geom_point() +
+  xlab("Year") +
+  ylab("Conditional Flame Length (ft)") +
+  ggtitle("Upper Quartile Flame Length in Different Treatment Scenarios") +
+  theme_bw() +
+  scale_x_discrete(breaks = seq(2020, 2050, 5)) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  geom_ribbon(aes(ymin = CFL - SD, 
+                  ymax = CFL + SD, 
+                  fill = Treatment), alpha = 0.3)
+
+# Final visualization stuff - remove error bars, center title, change names
+
+```
+
+
+
+
+
+```{#r Stats, eval=FALSE, include=FALSE}
+
+
+t.test(SDI260_18_CFL$CFL, SDI260_19_CFL$CFL, mu = 0, alternative = "greater", paired = FALSE)
+
+t.test(SDI260_19_CFL$CFL, SDI260_20_CFL$CFL, mu = 0, alternative = "less", paired = FALSE)
+
+t.test(SDI260_19_CFL$CFL, SDI260_21_CFL$CFL, mu = 0, alternative = "less", paired = FALSE)
+
+t.test(SDI260_19_CFL$CFL, SDI260_22_CFL$CFL, mu = 0, alternative = "less", paired = FALSE)
+
+t.test(SDI260_19_CFL$CFL, SDI260_23_CFL$CFL, mu = 0, alternative = "greater", paired = FALSE)
+
+t.test(SDI260_19_CFL$CFL, SDI260_24_CFL$CFL, mu = 0, alternative = "greater", paired = FALSE)
+
+t.test(SDI260_19_CFL$CFL, SDI260_25_CFL$CFL, mu = 0, alternative = "two.sided", paired = FALSE)
+
+t.test(SDI260_19_CFL$CFL, SDI260_26_CFL$CFL, mu = 0, alternative = "two.sided", paired = FALSE)
+
+t.test(SDI260_19_CFL$CFL, SDI260_27_CFL$CFL, mu = 0, alternative = "two.sided", paired = FALSE)
+
+t.test(SDI260_19_CFL$CFL, SDI260_28_CFL$CFL, mu = 0, alternative = "two.sided", paired = FALSE)
+
+t.test(SDI260_19_CFL$CFL, SDI260_29_CFL$CFL, mu = 0, alternative = "two.sided", paired = FALSE)
+
+t.test(SDI260_19_CFL$CFL, SDI260_30_CFL$CFL, mu = 0, alternative = "two.sided", paired = FALSE)
+
+
+
+
+
+
+```
+
+
+# Load Data Code
+
+# NT vs Treatment, Pixel by pixel analysis (2000 Pixels)
+
+Importing subset of 2000 random pixels which have fire activity for each year in each treatment
+
+```{r Import Pixel Subset}
+
+Subset_2000 <- read_csv("Subset_2000.csv")
+Subset_2000_Pri <- read_csv("Subset_2000_Pri.csv")
+Subset_2000_NoPiles <- read_csv("Subset_2000_NoPiles.csv")
+
+
+
+```
+
+
+
+
+```{r 260 vs 300 vs NT density pdf}
+
+NT_Average <- Subset_2000 %>% 
+  select(Average_nt) %>% 
+  mutate("No Treatment")
+
+colnames(NT_Average) <- c("CFL", "Treatment")
+
+mean_NT_Average <- mean(NT_Average$CFL)
+# mean No Treatment = 3.82 ft
+
+t.test(NT_Average$CFL)
+# 95% confidence interval is 3.76, 3.88
+SD_NT_Average <- sd(NT_Average$CFL)
+# standard deviation is +/- 1.35 ft
+
+
+SDI300_Average <- Subset_2000 %>% 
+  select(Average_300) %>% 
+  mutate("SDI 300")
+
+colnames(SDI300_Average) <- c("CFL", "Treatment")
+
+SDI260_Average <- Subset_2000 %>% 
+  select(Average_260) %>% 
+  mutate("SDI 260")
+
+colnames(SDI260_Average) <- c("CFL", "Treatment")
+
+SDI_260_VS_300_NT <- rbind(SDI300_Average, SDI260_Average, NT_Average)
+
+
+
+
+
+SDI_260_VS_300 <- rbind(SDI300_Average, SDI260_Average)
+
+
+
+
+
+# This just comparing 300 to 260
+
+# What to present: Dens of all 4 treatments, Dens of SDI 300 and 260, Dens of Prioritized vs NT, Dens of SDI 300, 260 and NT: Report: gridded 4 together
+
+# Present 260 vs 300: Quick blurb saying they look the same so you don't see them
+# Then present all treatments
+
+
+
+
+
+
+```
+
+
+
+Redoing CFL over time for each treatment 
+
+
+```{r CFL Over Time, 260 vs 300 vs NT}
+
+
+SDI260_18_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL18) %>% 
+  filter(SDI260_FL18 > 0) %>% 
+  arrange(-SDI260_FL18) %>% 
+  mutate(CFL = SDI260_FL18) %>% 
+  select(CFL)
+
+
+
+SDI260_19_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL19) %>% 
+  filter(SDI260_FL19 > 0) %>% 
+  arrange(-SDI260_FL19) %>% 
+  mutate(CFL = SDI260_FL19) %>% 
+  select(CFL)
+
+
+SDI260_20_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL20) %>% 
+  filter(SDI260_FL20 > 0) %>% 
+  arrange(-SDI260_FL20) %>% 
+  mutate(CFL = SDI260_FL20) %>% 
+  select(CFL)
+
+SDI260_21_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL21) %>% 
+  filter(SDI260_FL21 > 0) %>% 
+  arrange(-SDI260_FL21) %>% 
+  mutate(CFL = SDI260_FL21) %>% 
+  select(CFL) 
+  
+
+SDI260_22_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL22) %>% 
+  filter(SDI260_FL22 > 0) %>% 
+  arrange(-SDI260_FL22) %>% 
+  mutate(CFL = SDI260_FL22) %>% 
+  select(CFL) 
+  
+
+SDI260_23_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL23) %>% 
+  filter(SDI260_FL23 > 0) %>% 
+  arrange(-SDI260_FL23) %>% 
+  mutate(CFL = SDI260_FL23) %>% 
+  select(CFL) 
+  
+
+SDI260_24_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL24) %>% 
+  filter(SDI260_FL24 > 0) %>% 
+  arrange(-SDI260_FL24) %>% 
+  mutate(CFL = SDI260_FL24) %>% 
+  select(CFL) 
+  
+
+SDI260_25_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL25) %>% 
+  filter(SDI260_FL25 > 0) %>% 
+  arrange(-SDI260_FL25) %>% 
+  mutate(CFL = SDI260_FL25) %>% 
+  select(CFL) 
+  
+
+SDI260_26_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL26) %>% 
+  filter(SDI260_FL26 > 0) %>% 
+  arrange(-SDI260_FL26) %>% 
+  mutate(CFL = SDI260_FL26) %>% 
+  select(CFL) 
+  
+
+SDI260_27_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL27) %>% 
+  filter(SDI260_FL27 > 0) %>% 
+  arrange(-SDI260_FL27) %>% 
+  mutate(CFL = SDI260_FL27) %>% 
+  select(CFL) 
+  
+
+SDI260_28_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL28) %>% 
+  filter(SDI260_FL28 > 0) %>% 
+  arrange(-SDI260_FL28) %>% 
+  mutate(CFL = SDI260_FL28) %>% 
+  select(CFL) 
+  
+
+SDI260_29_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL29) %>% 
+  filter(SDI260_FL29 > 0) %>% 
+  arrange(-SDI260_FL29) %>% 
+  mutate(CFL = SDI260_FL29) %>% 
+  select(CFL) 
+  
+
+SDI260_30_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL30) %>% 
+  filter(SDI260_FL30 > 0) %>% 
+  arrange(-SDI260_FL30) %>%
+  mutate(CFL = SDI260_FL30) %>% 
+  select(CFL) 
+  
+
+SDI260_31_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL31) %>% 
+  filter(SDI260_FL31 > 0) %>% 
+  arrange(-SDI260_FL31) %>%
+  mutate(CFL = SDI260_FL31) %>% 
+  select(CFL) 
+  
+
+SDI260_32_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL32) %>% 
+  filter(SDI260_FL32 > 0) %>% 
+  arrange(-SDI260_FL32) %>%
+  mutate(CFL = SDI260_FL32) %>% 
+  select(CFL) 
+  
+
+SDI260_33_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL33) %>% 
+  filter(SDI260_FL33 > 0) %>% 
+  arrange(-SDI260_FL33) %>%
+  mutate(CFL = SDI260_FL33) %>% 
+  select(CFL) 
+  
+
+SDI260_34_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL34) %>% 
+  filter(SDI260_FL34 > 0) %>% 
+  arrange(-SDI260_FL34) %>%
+  mutate(CFL = SDI260_FL34) %>% 
+  select(CFL) 
+  
+
+SDI260_35_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL35) %>% 
+  filter(SDI260_FL35 > 0) %>% 
+  arrange(-SDI260_FL35) %>%
+  mutate(CFL = SDI260_FL35) %>% 
+  select(CFL) 
+  
+
+SDI260_36_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL36) %>% 
+  filter(SDI260_FL36 > 0) %>% 
+  arrange(-SDI260_FL36) %>%
+  mutate(CFL = SDI260_FL36) %>% 
+  select(CFL) 
+  
+
+SDI260_37_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL37) %>% 
+  filter(SDI260_FL37 > 0) %>% 
+  arrange(-SDI260_FL37) %>%
+  mutate(CFL = SDI260_FL37) %>% 
+  select(CFL) 
+  
+
+SDI260_38_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL38) %>% 
+  filter(SDI260_FL38 > 0) %>% 
+  arrange(-SDI260_FL38) %>%
+  mutate(CFL = SDI260_FL38) %>% 
+  select(CFL) 
+  
+
+SDI260_39_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL39) %>% 
+  filter(SDI260_FL39 > 0) %>% 
+  arrange(-SDI260_FL39) %>%
+  mutate(CFL = SDI260_FL39) %>% 
+  select(CFL) 
+  
+
+SDI260_40_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL40) %>% 
+  filter(SDI260_FL40 > 0) %>% 
+  arrange(-SDI260_FL40) %>%
+  mutate(CFL = SDI260_FL40) %>% 
+  select(CFL) 
+  
+  
+SDI260_41_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL41) %>% 
+  filter(SDI260_FL41 > 0) %>% 
+  arrange(-SDI260_FL41) %>%
+  mutate(CFL = SDI260_FL41) %>% 
+  select(CFL) 
+  
+  
+
+SDI260_42_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL42) %>% 
+  filter(SDI260_FL42 > 0) %>% 
+  arrange(-SDI260_FL42) %>%
+  mutate(CFL = SDI260_FL42) %>% 
+  select(CFL) 
+  
+  
+
+SDI260_43_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL43) %>% 
+  filter(SDI260_FL43 > 0) %>% 
+  arrange(-SDI260_FL43)  %>%
+  mutate(CFL = SDI260_FL43) %>% 
+  select(CFL) 
+  
+  
+SDI260_44_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL44) %>% 
+  filter(SDI260_FL44 > 0) %>% 
+  arrange(-SDI260_FL44) %>%
+  mutate(CFL = SDI260_FL44) %>% 
+  select(CFL) 
+  
+  
+SDI260_45_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL45) %>% 
+  filter(SDI260_FL45 > 0) %>% 
+  arrange(-SDI260_FL45) %>%
+  mutate(CFL = SDI260_FL45) %>% 
+  select(CFL) 
+  
+  
+SDI260_46_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL46) %>%
+  filter(SDI260_FL46 > 0) %>% 
+  arrange(-SDI260_FL46) %>% 
+  mutate(CFL = SDI260_FL46) %>% 
+  select(CFL) 
+  
+  
+SDI260_47_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL47) %>% 
+  filter(SDI260_FL47 > 0) %>% 
+  arrange(-SDI260_FL47) %>%
+  mutate(CFL = SDI260_FL47) %>% 
+  select(CFL) 
+  
+  
+SDI260_48_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL48) %>% 
+  filter(SDI260_FL48 > 0) %>% 
+  arrange(-SDI260_FL48) %>%
+  mutate(CFL = SDI260_FL48) %>% 
+  select(CFL) 
+  
+  
+SDI260_49_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL49) %>% 
+  filter(SDI260_FL49 > 0) %>% 
+  filter(SDI260_FL49 < 100) %>% 
+  arrange(-SDI260_FL49) %>%
+  mutate(CFL = SDI260_FL49) %>% 
+  select(CFL) 
+  
+  
+SDI260_50_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL50) %>% 
+  filter(SDI260_FL50 > 0) %>% 
+  arrange(-SDI260_FL50)  %>%
+  mutate(CFL = SDI260_FL50) %>% 
+  select(CFL) 
+
+
+
+
+
+
+
+
+  
+SDI300_18_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL18) %>% 
+  filter(SDI300_FL18 > 0) %>% 
+  arrange(-SDI300_FL18) %>% 
+  mutate(CFL = SDI300_FL18) %>% 
+  select(CFL)
+
+
+
+SDI300_19_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL19) %>% 
+  filter(SDI300_FL19 > 0) %>% 
+  arrange(-SDI300_FL19) %>% 
+  mutate(CFL = SDI300_FL19) %>% 
+  select(CFL)
+
+
+SDI300_20_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL20) %>% 
+  filter(SDI300_FL20 > 0) %>% 
+  arrange(-SDI300_FL20) %>% 
+  mutate(CFL = SDI300_FL20) %>% 
+  select(CFL)
+
+SDI300_21_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL21) %>% 
+  filter(SDI300_FL21 > 0) %>% 
+  arrange(-SDI300_FL21) %>% 
+  mutate(CFL = SDI300_FL21) %>% 
+  select(CFL) 
+  
+
+SDI300_22_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL22) %>% 
+  filter(SDI300_FL22 > 0) %>% 
+  arrange(-SDI300_FL22) %>% 
+  mutate(CFL = SDI300_FL22) %>% 
+  select(CFL) 
+  
+
+SDI300_23_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL23) %>% 
+  filter(SDI300_FL23 > 0) %>% 
+  arrange(-SDI300_FL23) %>% 
+  mutate(CFL = SDI300_FL23) %>% 
+  select(CFL) 
+  
+
+SDI300_24_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL24) %>% 
+  filter(SDI300_FL24 > 0) %>% 
+  arrange(-SDI300_FL24) %>% 
+  mutate(CFL = SDI300_FL24) %>% 
+  select(CFL) 
+  
+
+SDI300_25_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL25) %>% 
+  filter(SDI300_FL25 > 0) %>% 
+  arrange(-SDI300_FL25) %>% 
+  mutate(CFL = SDI300_FL25) %>% 
+  select(CFL) 
+  
+
+SDI300_26_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL26) %>% 
+  filter(SDI300_FL26 > 0) %>% 
+  arrange(-SDI300_FL26) %>% 
+  mutate(CFL = SDI300_FL26) %>% 
+  select(CFL) 
+  
+
+SDI300_27_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL27) %>% 
+  filter(SDI300_FL27 > 0) %>% 
+  arrange(-SDI300_FL27) %>% 
+  mutate(CFL = SDI300_FL27) %>% 
+  select(CFL) 
+  
+
+SDI300_28_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL28) %>% 
+  filter(SDI300_FL28 > 0) %>% 
+  arrange(-SDI300_FL28) %>% 
+  mutate(CFL = SDI300_FL28) %>% 
+  select(CFL) 
+  
+
+SDI300_29_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL29) %>% 
+  filter(SDI300_FL29 > 0) %>% 
+  arrange(-SDI300_FL29) %>% 
+  mutate(CFL = SDI300_FL29) %>% 
+  select(CFL) 
+  
+
+SDI300_30_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL30) %>% 
+  filter(SDI300_FL30 > 0) %>% 
+  arrange(-SDI300_FL30) %>%
+  mutate(CFL = SDI300_FL30) %>% 
+  select(CFL) 
+  
+
+SDI300_31_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL31) %>% 
+  filter(SDI300_FL31 > 0) %>% 
+  arrange(-SDI300_FL31) %>%
+  mutate(CFL = SDI300_FL31) %>% 
+  select(CFL) 
+  
+
+SDI300_32_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL32) %>% 
+  filter(SDI300_FL32 > 0) %>% 
+  arrange(-SDI300_FL32) %>%
+  mutate(CFL = SDI300_FL32) %>% 
+  select(CFL) 
+  
+
+SDI300_33_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL33) %>% 
+  filter(SDI300_FL33 > 0) %>% 
+  arrange(-SDI300_FL33) %>%
+  mutate(CFL = SDI300_FL33) %>% 
+  select(CFL) 
+  
+
+SDI300_34_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL34) %>% 
+  filter(SDI300_FL34 > 0) %>% 
+  arrange(-SDI300_FL34) %>%
+  mutate(CFL = SDI300_FL34) %>% 
+  select(CFL) 
+  
+
+SDI300_35_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL35) %>% 
+  filter(SDI300_FL35 > 0) %>% 
+  arrange(-SDI300_FL35) %>%
+  mutate(CFL = SDI300_FL35) %>% 
+  select(CFL) 
+  
+
+SDI300_36_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL36) %>% 
+  filter(SDI300_FL36 > 0) %>% 
+  arrange(-SDI300_FL36) %>%
+  mutate(CFL = SDI300_FL36) %>% 
+  select(CFL) 
+  
+
+SDI300_37_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL37) %>% 
+  filter(SDI300_FL37 > 0) %>% 
+  arrange(-SDI300_FL37) %>%
+  mutate(CFL = SDI300_FL37) %>% 
+  select(CFL) 
+  
+
+SDI300_38_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL38) %>% 
+  filter(SDI300_FL38 > 0) %>% 
+  arrange(-SDI300_FL38) %>%
+  mutate(CFL = SDI300_FL38) %>% 
+  select(CFL) 
+  
+
+SDI300_39_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL39) %>% 
+  filter(SDI300_FL39 > 0) %>% 
+  arrange(-SDI300_FL39) %>%
+  mutate(CFL = SDI300_FL39) %>% 
+  select(CFL) 
+  
+
+SDI300_40_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL40) %>% 
+  filter(SDI300_FL40 > 0) %>% 
+  arrange(-SDI300_FL40) %>%
+  mutate(CFL = SDI300_FL40) %>% 
+  select(CFL) 
+  
+  
+SDI300_41_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL41) %>% 
+  filter(SDI300_FL41 > 0) %>% 
+  arrange(-SDI300_FL41) %>%
+  mutate(CFL = SDI300_FL41) %>% 
+  select(CFL) 
+  
+  
+
+SDI300_42_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL42) %>% 
+  filter(SDI300_FL42 > 0) %>% 
+  arrange(-SDI300_FL42) %>%
+  mutate(CFL = SDI300_FL42) %>% 
+  select(CFL) 
+  
+  
+
+SDI300_43_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL43) %>% 
+  filter(SDI300_FL43 > 0) %>% 
+  arrange(-SDI300_FL43)  %>%
+  mutate(CFL = SDI300_FL43) %>% 
+  select(CFL) 
+  
+  
+SDI300_44_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL44) %>% 
+  filter(SDI300_FL44 > 0) %>% 
+  arrange(-SDI300_FL44) %>%
+  mutate(CFL = SDI300_FL44) %>% 
+  select(CFL) 
+  
+  
+SDI300_45_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL45) %>% 
+  filter(SDI300_FL45 > 0) %>% 
+  arrange(-SDI300_FL45) %>%
+  mutate(CFL = SDI300_FL45) %>% 
+  select(CFL) 
+  
+  
+SDI300_46_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL46) %>%
+  filter(SDI300_FL46 > 0) %>% 
+  arrange(-SDI300_FL46) %>% 
+  mutate(CFL = SDI300_FL46) %>% 
+  select(CFL) 
+  
+  
+SDI300_47_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL47) %>% 
+  filter(SDI300_FL47 > 0) %>% 
+  arrange(-SDI300_FL47) %>%
+  mutate(CFL = SDI300_FL47) %>% 
+  select(CFL) 
+  
+  
+SDI300_48_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL48) %>% 
+  filter(SDI300_FL48 > 0) %>% 
+  arrange(-SDI300_FL48) %>%
+  mutate(CFL = SDI300_FL48) %>% 
+  select(CFL) 
+  
+  
+SDI300_49_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL49) %>% 
+  filter(SDI300_FL49 > 0) %>% 
+  filter(SDI300_FL49 < 100) %>% 
+  arrange(-SDI300_FL49) %>%
+  mutate(CFL = SDI300_FL49) %>% 
+  select(CFL) 
+  
+  
+SDI300_50_CFL <- `Subset_2000` %>% 
+  select(SDI300_FL50) %>% 
+  filter(SDI300_FL50 > 0) %>% 
+  arrange(-SDI300_FL50)  %>%
+  mutate(CFL = SDI300_FL50) %>% 
+  select(CFL) 
+  
+
+
+
+
+
+
+
+
+
+  
+NT_18_CFL <- `Subset_2000` %>% 
+  select(NT_FL18) %>% 
+  filter(NT_FL18 > 0) %>% 
+  arrange(-NT_FL18) %>% 
+  mutate(CFL = NT_FL18) %>% 
+  select(CFL)
+
+
+
+NT_19_CFL <- `Subset_2000` %>% 
+  select(NT_FL19) %>% 
+  filter(NT_FL19 > 0) %>% 
+  arrange(-NT_FL19) %>% 
+  mutate(CFL = NT_FL19) %>% 
+  select(CFL)
+
+
+NT_20_CFL <- `Subset_2000` %>% 
+  select(NT_FL20) %>% 
+  filter(NT_FL20 > 0) %>% 
+  arrange(-NT_FL20) %>% 
+  mutate(CFL = NT_FL20) %>% 
+  select(CFL)
+
+NT_21_CFL <- `Subset_2000` %>% 
+  select(NT_FL21) %>% 
+  filter(NT_FL21 > 0) %>% 
+  arrange(-NT_FL21) %>% 
+  mutate(CFL = NT_FL21) %>% 
+  select(CFL) 
+  
+
+NT_22_CFL <- `Subset_2000` %>% 
+  select(NT_FL22) %>% 
+  filter(NT_FL22 > 0) %>% 
+  arrange(-NT_FL22) %>% 
+  mutate(CFL = NT_FL22) %>% 
+  select(CFL) 
+  
+
+NT_23_CFL <- `Subset_2000` %>% 
+  select(NT_FL23) %>% 
+  filter(NT_FL23 > 0) %>% 
+  arrange(-NT_FL23) %>% 
+  mutate(CFL = NT_FL23) %>% 
+  select(CFL) 
+  
+
+NT_24_CFL <- `Subset_2000` %>% 
+  select(NT_FL24) %>% 
+  filter(NT_FL24 > 0) %>% 
+  arrange(-NT_FL24) %>% 
+  mutate(CFL = NT_FL24) %>% 
+  select(CFL) 
+  
+
+NT_25_CFL <- `Subset_2000` %>% 
+  select(NT_FL25) %>% 
+  filter(NT_FL25 > 0) %>% 
+  arrange(-NT_FL25) %>% 
+  mutate(CFL = NT_FL25) %>% 
+  select(CFL) 
+  
+
+NT_26_CFL <- `Subset_2000` %>% 
+  select(NT_FL26) %>% 
+  filter(NT_FL26 > 0) %>% 
+  arrange(-NT_FL26) %>% 
+  mutate(CFL = NT_FL26) %>% 
+  select(CFL) 
+  
+
+NT_27_CFL <- `Subset_2000` %>% 
+  select(NT_FL27) %>% 
+  filter(NT_FL27 > 0) %>% 
+  arrange(-NT_FL27) %>% 
+  mutate(CFL = NT_FL27) %>% 
+  select(CFL) 
+  
+
+NT_28_CFL <- `Subset_2000` %>% 
+  select(NT_FL28) %>% 
+  filter(NT_FL28 > 0) %>% 
+  arrange(-NT_FL28) %>% 
+  mutate(CFL = NT_FL28) %>% 
+  select(CFL) 
+  
+
+NT_29_CFL <- `Subset_2000` %>% 
+  select(NT_FL29) %>% 
+  filter(NT_FL29 > 0) %>% 
+  arrange(-NT_FL29) %>% 
+  mutate(CFL = NT_FL29) %>% 
+  select(CFL) 
+  
+
+NT_30_CFL <- `Subset_2000` %>% 
+  select(NT_FL30) %>% 
+  filter(NT_FL30 > 0) %>% 
+  arrange(-NT_FL30) %>%
+  mutate(CFL = NT_FL30) %>% 
+  select(CFL) 
+  
+
+NT_31_CFL <- `Subset_2000` %>% 
+  select(NT_FL31) %>% 
+  filter(NT_FL31 > 0) %>% 
+  arrange(-NT_FL31) %>%
+  mutate(CFL = NT_FL31) %>% 
+  select(CFL) 
+  
+
+NT_32_CFL <- `Subset_2000` %>% 
+  select(NT_FL32) %>% 
+  filter(NT_FL32 > 0) %>% 
+  arrange(-NT_FL32) %>%
+  mutate(CFL = NT_FL32) %>% 
+  select(CFL) 
+  
+
+NT_33_CFL <- `Subset_2000` %>% 
+  select(NT_FL33) %>% 
+  filter(NT_FL33 > 0) %>% 
+  arrange(-NT_FL33) %>%
+  mutate(CFL = NT_FL33) %>% 
+  select(CFL) 
+  
+
+NT_34_CFL <- `Subset_2000` %>% 
+  select(NT_FL34) %>% 
+  filter(NT_FL34 > 0) %>% 
+  arrange(-NT_FL34) %>%
+  mutate(CFL = NT_FL34) %>% 
+  select(CFL) 
+  
+
+NT_35_CFL <- `Subset_2000` %>% 
+  select(NT_FL35) %>% 
+  filter(NT_FL35 > 0) %>% 
+  arrange(-NT_FL35) %>%
+  mutate(CFL = NT_FL35) %>% 
+  select(CFL) 
+  
+
+NT_36_CFL <- `Subset_2000` %>% 
+  select(NT_FL36) %>% 
+  filter(NT_FL36 > 0) %>% 
+  arrange(-NT_FL36) %>%
+  mutate(CFL = NT_FL36) %>% 
+  select(CFL) 
+  
+
+NT_37_CFL <- `Subset_2000` %>% 
+  select(NT_FL37) %>% 
+  filter(NT_FL37 > 0) %>% 
+  arrange(-NT_FL37) %>%
+  mutate(CFL = NT_FL37) %>% 
+  select(CFL) 
+  
+
+NT_38_CFL <- `Subset_2000` %>% 
+  select(NT_FL38) %>% 
+  filter(NT_FL38 > 0) %>% 
+  arrange(-NT_FL38) %>%
+  mutate(CFL = NT_FL38) %>% 
+  select(CFL) 
+  
+
+NT_39_CFL <- `Subset_2000` %>% 
+  select(NT_FL39) %>% 
+  filter(NT_FL39 > 0) %>% 
+  arrange(-NT_FL39) %>%
+  mutate(CFL = NT_FL39) %>% 
+  select(CFL) 
+  
+
+NT_40_CFL <- `Subset_2000` %>% 
+  select(NT_FL40) %>% 
+  filter(NT_FL40 > 0) %>% 
+  arrange(-NT_FL40) %>%
+  mutate(CFL = NT_FL40) %>% 
+  select(CFL) 
+  
+  
+NT_41_CFL <- `Subset_2000` %>% 
+  select(NT_FL41) %>% 
+  filter(NT_FL41 > 0) %>% 
+  arrange(-NT_FL41) %>%
+  mutate(CFL = NT_FL41) %>% 
+  select(CFL) 
+  
+  
+
+NT_42_CFL <- `Subset_2000` %>% 
+  select(NT_FL42) %>% 
+  filter(NT_FL42 > 0) %>% 
+  arrange(-NT_FL42) %>%
+  mutate(CFL = NT_FL42) %>% 
+  select(CFL) 
+  
+  
+
+NT_43_CFL <- `Subset_2000` %>% 
+  select(NT_FL43) %>% 
+  filter(NT_FL43 > 0) %>% 
+  arrange(-NT_FL43)  %>%
+  mutate(CFL = NT_FL43) %>% 
+  select(CFL) 
+  
+  
+NT_44_CFL <- `Subset_2000` %>% 
+  select(NT_FL44) %>% 
+  filter(NT_FL44 > 0) %>% 
+  arrange(-NT_FL44) %>%
+  mutate(CFL = NT_FL44) %>% 
+  select(CFL) 
+  
+  
+NT_45_CFL <- `Subset_2000` %>% 
+  select(NT_FL45) %>% 
+  filter(NT_FL45 > 0) %>% 
+  arrange(-NT_FL45) %>%
+  mutate(CFL = NT_FL45) %>% 
+  select(CFL) 
+  
+  
+NT_46_CFL <- `Subset_2000` %>% 
+  select(NT_FL46) %>%
+  filter(NT_FL46 > 0) %>% 
+  arrange(-NT_FL46) %>% 
+  mutate(CFL = NT_FL46) %>% 
+  select(CFL) 
+  
+  
+NT_47_CFL <- `Subset_2000` %>% 
+  select(NT_FL47) %>% 
+  filter(NT_FL47 > 0) %>% 
+  arrange(-NT_FL47) %>%
+  mutate(CFL = NT_FL47) %>% 
+  select(CFL) 
+  
+  
+NT_48_CFL <- `Subset_2000` %>% 
+  select(NT_FL48) %>% 
+  filter(NT_FL48 > 0) %>% 
+  arrange(-NT_FL48) %>%
+  mutate(CFL = NT_FL48) %>% 
+  select(CFL) 
+  
+  
+NT_49_CFL <- `Subset_2000` %>% 
+  select(NT_FL49) %>% 
+  filter(NT_FL49 > 0) %>% 
+  filter(NT_FL49 < 100) %>% 
+  arrange(-NT_FL49) %>%
+  mutate(CFL = NT_FL49) %>% 
+  select(CFL) 
+  
+  
+NT_50_CFL <- `Subset_2000` %>% 
+  select(NT_FL50) %>% 
+  filter(NT_FL50 > 0) %>% 
+  arrange(-NT_FL50)  %>%
+  mutate(CFL = NT_FL50) %>% 
+  select(CFL) 
+
+
+```
+
+
+
+
+```{r 260 vs 300 vs NT Graph Over Time}
+
+# No Treatment
+
+
+SDI18_NT <- mean(NT_18_CFL$CFL)
+SDI19_NT <- mean(NT_19_CFL$CFL)
+SDI20_NT <- mean(NT_20_CFL$CFL)
+SDI21_NT <- mean(NT_21_CFL$CFL)
+SDI22_NT <- mean(NT_22_CFL$CFL)
+SDI23_NT <- mean(NT_23_CFL$CFL)
+SDI24_NT <- mean(NT_24_CFL$CFL)
+SDI25_NT <- mean(NT_25_CFL$CFL)
+SDI26_NT <- mean(NT_26_CFL$CFL)
+SDI27_NT <- mean(NT_27_CFL$CFL)
+SDI28_NT <- mean(NT_28_CFL$CFL)
+SDI29_NT <- mean(NT_29_CFL$CFL)
+SDI30_NT <- mean(NT_30_CFL$CFL)
+SDI31_NT <- mean(NT_31_CFL$CFL)
+SDI32_NT <- mean(NT_32_CFL$CFL)
+SDI33_NT <- mean(NT_33_CFL$CFL)
+SDI34_NT <- mean(NT_34_CFL$CFL)
+SDI35_NT <- mean(NT_35_CFL$CFL)
+SDI36_NT <- mean(NT_36_CFL$CFL)
+SDI37_NT <- mean(NT_37_CFL$CFL)
+SDI38_NT <- mean(NT_38_CFL$CFL)
+SDI39_NT <- mean(NT_39_CFL$CFL)
+SDI40_NT <- mean(NT_40_CFL$CFL)
+SDI41_NT <- mean(NT_41_CFL$CFL)
+SDI42_NT <- mean(NT_42_CFL$CFL)
+SDI43_NT <- mean(NT_43_CFL$CFL)
+SDI44_NT <- mean(NT_44_CFL$CFL)
+SDI45_NT <- mean(NT_45_CFL$CFL)
+SDI46_NT <- mean(NT_46_CFL$CFL)
+SDI47_NT <- mean(NT_47_CFL$CFL)
+SDI48_NT <- mean(NT_48_CFL$CFL)
+SDI49_NT <- mean(NT_49_CFL$CFL)
+SDI50_NT <- mean(NT_50_CFL$CFL)
+
+SDI18_NT_SE <- sd(NT_18_CFL$CFL)/sqrt(2000)
+SDI19_NT_SE <- sd(NT_19_CFL$CFL)/sqrt(2000)
+SDI20_NT_SE <- sd(NT_20_CFL$CFL)/sqrt(2000)
+SDI21_NT_SE <- sd(NT_21_CFL$CFL)/sqrt(2000)
+SDI22_NT_SE <- sd(NT_22_CFL$CFL)/sqrt(2000)
+SDI23_NT_SE <- sd(NT_23_CFL$CFL)/sqrt(2000)
+SDI24_NT_SE <- sd(NT_24_CFL$CFL)/sqrt(2000)
+SDI25_NT_SE <- sd(NT_25_CFL$CFL)/sqrt(2000)
+SDI26_NT_SE <- sd(NT_26_CFL$CFL)/sqrt(2000)
+SDI27_NT_SE <- sd(NT_27_CFL$CFL)/sqrt(2000)
+SDI28_NT_SE <- sd(NT_28_CFL$CFL)/sqrt(2000)
+SDI29_NT_SE <- sd(NT_29_CFL$CFL)/sqrt(2000)
+SDI30_NT_SE <- sd(NT_30_CFL$CFL)/sqrt(2000)
+SDI31_NT_SE <- sd(NT_31_CFL$CFL)/sqrt(2000)
+SDI32_NT_SE <- sd(NT_32_CFL$CFL)/sqrt(2000)
+SDI33_NT_SE <- sd(NT_33_CFL$CFL)/sqrt(2000)
+SDI34_NT_SE <- sd(NT_34_CFL$CFL)/sqrt(2000)
+SDI35_NT_SE <- sd(NT_35_CFL$CFL)/sqrt(2000)
+SDI36_NT_SE <- sd(NT_36_CFL$CFL)/sqrt(2000)
+SDI37_NT_SE <- sd(NT_37_CFL$CFL)/sqrt(2000)
+SDI38_NT_SE <- sd(NT_38_CFL$CFL)/sqrt(2000)
+SDI39_NT_SE <- sd(NT_39_CFL$CFL)/sqrt(2000)
+SDI40_NT_SE <- sd(NT_40_CFL$CFL)/sqrt(2000)
+SDI41_NT_SE <- sd(NT_41_CFL$CFL)/sqrt(2000)
+SDI42_NT_SE <- sd(NT_42_CFL$CFL)/sqrt(2000)
+SDI43_NT_SE <- sd(NT_43_CFL$CFL)/sqrt(2000)
+SDI44_NT_SE <- sd(NT_44_CFL$CFL)/sqrt(2000)
+SDI45_NT_SE <- sd(NT_45_CFL$CFL)/sqrt(2000)
+SDI46_NT_SE <- sd(NT_46_CFL$CFL)/sqrt(2000)
+SDI47_NT_SE <- sd(NT_47_CFL$CFL)/sqrt(2000)
+SDI48_NT_SE <- sd(NT_48_CFL$CFL)/sqrt(2000)
+SDI49_NT_SE <- sd(NT_49_CFL$CFL)/sqrt(2000)
+SDI50_NT_SE <- sd(NT_50_CFL$CFL)/sqrt(2000)
+
+# SDI 260
+
+SDI18_260 <- mean(SDI260_18_CFL$CFL)
+SDI19_260 <- mean(SDI260_19_CFL$CFL)
+SDI20_260 <- mean(SDI260_20_CFL$CFL)
+SDI21_260 <- mean(SDI260_21_CFL$CFL)
+SDI22_260 <- mean(SDI260_22_CFL$CFL)
+SDI23_260 <- mean(SDI260_23_CFL$CFL)
+SDI24_260 <- mean(SDI260_24_CFL$CFL)
+SDI25_260 <- mean(SDI260_25_CFL$CFL)
+SDI26_260 <- mean(SDI260_26_CFL$CFL)
+SDI27_260 <- mean(SDI260_27_CFL$CFL)
+SDI28_260 <- mean(SDI260_28_CFL$CFL)
+SDI29_260 <- mean(SDI260_29_CFL$CFL)
+SDI30_260 <- mean(SDI260_30_CFL$CFL)
+SDI31_260 <- mean(SDI260_31_CFL$CFL)
+SDI32_260 <- mean(SDI260_32_CFL$CFL)
+SDI33_260 <- mean(SDI260_33_CFL$CFL)
+SDI34_260 <- mean(SDI260_34_CFL$CFL)
+SDI35_260 <- mean(SDI260_35_CFL$CFL)
+SDI36_260 <- mean(SDI260_36_CFL$CFL)
+SDI37_260 <- mean(SDI260_37_CFL$CFL)
+SDI38_260 <- mean(SDI260_38_CFL$CFL)
+SDI39_260 <- mean(SDI260_39_CFL$CFL)
+SDI40_260 <- mean(SDI260_40_CFL$CFL)
+SDI41_260 <- mean(SDI260_41_CFL$CFL)
+SDI42_260 <- mean(SDI260_42_CFL$CFL)
+SDI43_260 <- mean(SDI260_43_CFL$CFL)
+SDI44_260 <- mean(SDI260_44_CFL$CFL)
+SDI45_260 <- mean(SDI260_45_CFL$CFL)
+SDI46_260 <- mean(SDI260_46_CFL$CFL)
+SDI47_260 <- mean(SDI260_47_CFL$CFL)
+SDI48_260 <- mean(SDI260_48_CFL$CFL)
+SDI49_260 <- mean(SDI260_49_CFL$CFL)
+SDI50_260 <- mean(SDI260_50_CFL$CFL)
+
+SDI18_260_SE <- sd(SDI260_18_CFL$CFL)/sqrt(2000)
+SDI19_260_SE <- sd(SDI260_19_CFL$CFL)/sqrt(2000)
+SDI20_260_SE <- sd(SDI260_20_CFL$CFL)/sqrt(2000)
+SDI21_260_SE <- sd(SDI260_21_CFL$CFL)/sqrt(2000)
+SDI22_260_SE <- sd(SDI260_22_CFL$CFL)/sqrt(2000)
+SDI23_260_SE <- sd(SDI260_23_CFL$CFL)/sqrt(2000)
+SDI24_260_SE <- sd(SDI260_24_CFL$CFL)/sqrt(2000)
+SDI25_260_SE <- sd(SDI260_25_CFL$CFL)/sqrt(2000)
+SDI26_260_SE <- sd(SDI260_26_CFL$CFL)/sqrt(2000)
+SDI27_260_SE <- sd(SDI260_27_CFL$CFL)/sqrt(2000)
+SDI28_260_SE <- sd(SDI260_28_CFL$CFL)/sqrt(2000)
+SDI29_260_SE <- sd(SDI260_29_CFL$CFL)/sqrt(2000)
+SDI30_260_SE <- sd(SDI260_30_CFL$CFL)/sqrt(2000)
+SDI31_260_SE <- sd(SDI260_31_CFL$CFL)/sqrt(2000)
+SDI32_260_SE <- sd(SDI260_32_CFL$CFL)/sqrt(2000)
+SDI33_260_SE <- sd(SDI260_33_CFL$CFL)/sqrt(2000)
+SDI34_260_SE <- sd(SDI260_34_CFL$CFL)/sqrt(2000)
+SDI35_260_SE <- sd(SDI260_35_CFL$CFL)/sqrt(2000)
+SDI36_260_SE <- sd(SDI260_36_CFL$CFL)/sqrt(2000)
+SDI37_260_SE <- sd(SDI260_37_CFL$CFL)/sqrt(2000)
+SDI38_260_SE <- sd(SDI260_38_CFL$CFL)/sqrt(2000)
+SDI39_260_SE <- sd(SDI260_39_CFL$CFL)/sqrt(2000)
+SDI40_260_SE <- sd(SDI260_40_CFL$CFL)/sqrt(2000)
+SDI41_260_SE <- sd(SDI260_41_CFL$CFL)/sqrt(2000)
+SDI42_260_SE <- sd(SDI260_42_CFL$CFL)/sqrt(2000)
+SDI43_260_SE <- sd(SDI260_43_CFL$CFL)/sqrt(2000)
+SDI44_260_SE <- sd(SDI260_44_CFL$CFL)/sqrt(2000)
+SDI45_260_SE <- sd(SDI260_45_CFL$CFL)/sqrt(2000)
+SDI46_260_SE <- sd(SDI260_46_CFL$CFL)/sqrt(2000)
+SDI47_260_SE <- sd(SDI260_47_CFL$CFL)/sqrt(2000)
+SDI48_260_SE <- sd(SDI260_48_CFL$CFL)/sqrt(2000)
+SDI49_260_SE <- sd(SDI260_49_CFL$CFL)/sqrt(2000)
+SDI50_260_SE <- sd(SDI260_50_CFL$CFL)/sqrt(2000)
+
+
+
+SDI18_300 <- mean(SDI300_18_CFL$CFL)
+SDI19_300 <- mean(SDI300_19_CFL$CFL)
+SDI20_300 <- mean(SDI300_20_CFL$CFL)
+SDI21_300 <- mean(SDI300_21_CFL$CFL)
+SDI22_300 <- mean(SDI300_22_CFL$CFL)
+SDI23_300 <- mean(SDI300_23_CFL$CFL)
+SDI24_300 <- mean(SDI300_24_CFL$CFL)
+SDI25_300 <- mean(SDI300_25_CFL$CFL)
+SDI26_300 <- mean(SDI300_26_CFL$CFL)
+SDI27_300 <- mean(SDI300_27_CFL$CFL)
+SDI28_300 <- mean(SDI300_28_CFL$CFL)
+SDI29_300 <- mean(SDI300_29_CFL$CFL)
+SDI30_300 <- mean(SDI300_30_CFL$CFL)
+SDI31_300 <- mean(SDI300_31_CFL$CFL)
+SDI32_300 <- mean(SDI300_32_CFL$CFL)
+SDI33_300 <- mean(SDI300_33_CFL$CFL)
+SDI34_300 <- mean(SDI300_34_CFL$CFL)
+SDI35_300 <- mean(SDI300_35_CFL$CFL)
+SDI36_300 <- mean(SDI300_36_CFL$CFL)
+SDI37_300 <- mean(SDI300_37_CFL$CFL)
+SDI38_300 <- mean(SDI300_38_CFL$CFL)
+SDI39_300 <- mean(SDI300_39_CFL$CFL)
+SDI40_300 <- mean(SDI300_40_CFL$CFL)
+SDI41_300 <- mean(SDI300_41_CFL$CFL)
+SDI42_300 <- mean(SDI300_42_CFL$CFL)
+SDI43_300 <- mean(SDI300_43_CFL$CFL)
+SDI44_300 <- mean(SDI300_44_CFL$CFL)
+SDI45_300 <- mean(SDI300_45_CFL$CFL)
+SDI46_300 <- mean(SDI300_46_CFL$CFL)
+SDI47_300 <- mean(SDI300_47_CFL$CFL)
+SDI48_300 <- mean(SDI300_48_CFL$CFL)
+SDI49_300 <- mean(SDI300_49_CFL$CFL)
+SDI50_300 <- mean(SDI300_50_CFL$CFL)
+
+SDI18_300_SE <- sd(SDI300_18_CFL$CFL)/sqrt(2000)
+SDI19_300_SE <- sd(SDI300_19_CFL$CFL)/sqrt(2000)
+SDI20_300_SE <- sd(SDI300_20_CFL$CFL)/sqrt(2000)
+SDI21_300_SE <- sd(SDI300_21_CFL$CFL)/sqrt(2000)
+SDI22_300_SE <- sd(SDI300_22_CFL$CFL)/sqrt(2000)
+SDI23_300_SE <- sd(SDI300_23_CFL$CFL)/sqrt(2000)
+SDI24_300_SE <- sd(SDI300_24_CFL$CFL)/sqrt(2000)
+SDI25_300_SE <- sd(SDI300_25_CFL$CFL)/sqrt(2000)
+SDI26_300_SE <- sd(SDI300_26_CFL$CFL)/sqrt(2000)
+SDI27_300_SE <- sd(SDI300_27_CFL$CFL)/sqrt(2000)
+SDI28_300_SE <- sd(SDI300_28_CFL$CFL)/sqrt(2000)
+SDI29_300_SE <- sd(SDI300_29_CFL$CFL)/sqrt(2000)
+SDI30_300_SE <- sd(SDI300_30_CFL$CFL)/sqrt(2000)
+SDI31_300_SE <- sd(SDI300_31_CFL$CFL)/sqrt(2000)
+SDI32_300_SE <- sd(SDI300_32_CFL$CFL)/sqrt(2000)
+SDI33_300_SE <- sd(SDI300_33_CFL$CFL)/sqrt(2000)
+SDI34_300_SE <- sd(SDI300_34_CFL$CFL)/sqrt(2000)
+SDI35_300_SE <- sd(SDI300_35_CFL$CFL)/sqrt(2000)
+SDI36_300_SE <- sd(SDI300_36_CFL$CFL)/sqrt(2000)
+SDI37_300_SE <- sd(SDI300_37_CFL$CFL)/sqrt(2000)
+SDI38_300_SE <- sd(SDI300_38_CFL$CFL)/sqrt(2000)
+SDI39_300_SE <- sd(SDI300_39_CFL$CFL)/sqrt(2000)
+SDI40_300_SE <- sd(SDI300_40_CFL$CFL)/sqrt(2000)
+SDI41_300_SE <- sd(SDI300_41_CFL$CFL)/sqrt(2000)
+SDI42_300_SE <- sd(SDI300_42_CFL$CFL)/sqrt(2000)
+SDI43_300_SE <- sd(SDI300_43_CFL$CFL)/sqrt(2000)
+SDI44_300_SE <- sd(SDI300_44_CFL$CFL)/sqrt(2000)
+SDI45_300_SE <- sd(SDI300_45_CFL$CFL)/sqrt(2000)
+SDI46_300_SE <- sd(SDI300_46_CFL$CFL)/sqrt(2000)
+SDI47_300_SE <- sd(SDI300_47_CFL$CFL)/sqrt(2000)
+SDI48_300_SE <- sd(SDI300_48_CFL$CFL)/sqrt(2000)
+SDI49_300_SE <- sd(SDI300_49_CFL$CFL)/sqrt(2000)
+SDI50_300_SE <- sd(SDI300_50_CFL$CFL)/sqrt(2000)
+
+
+
+
+
+# NT Vectors
+
+
+MeanNT <- t(data.frame(SDI18_NT, SDI19_NT, SDI20_NT, SDI21_NT, SDI22_NT, SDI23_NT, SDI24_NT, SDI25_NT, SDI26_NT, SDI27_NT, SDI28_NT, SDI29_NT, SDI30_NT, SDI31_NT, SDI32_NT, SDI33_NT, SDI34_NT, SDI35_NT, SDI36_NT, SDI37_NT, SDI38_NT, SDI39_NT, SDI40_NT, SDI41_NT, SDI42_NT, SDI43_NT, SDI44_NT, SDI45_NT, SDI46_NT, SDI47_NT, SDI48_NT, SDI49_NT, SDI50_NT))
+
+SE_NT <- t(data.frame(SDI18_NT_SE, SDI19_NT_SE, SDI20_NT_SE, SDI21_NT_SE, SDI22_NT_SE, SDI23_NT_SE, SDI24_NT_SE, SDI25_NT_SE, SDI26_NT_SE, SDI27_NT_SE, SDI28_NT_SE, SDI29_NT_SE, SDI30_NT_SE, SDI31_NT_SE, SDI32_NT_SE, SDI33_NT_SE, SDI34_NT_SE, SDI35_NT_SE, SDI36_NT_SE, SDI37_NT_SE, SDI38_NT_SE, SDI39_NT_SE, SDI40_NT_SE, SDI41_NT_SE, SDI42_NT_SE, SDI43_NT_SE, SDI44_NT_SE, SDI45_NT_SE, SDI46_NT_SE, SDI47_NT_SE, SDI48_NT_SE, SDI49_NT_SE, SDI50_NT_SE))
+
+# SDI 260 Vectors
+
+Mean260 <- t(data.frame(SDI18_260, SDI19_260, SDI20_260, SDI21_260, SDI22_260, SDI23_260, SDI24_260, SDI25_260, SDI26_260, SDI27_260, SDI28_260, SDI29_260, SDI30_260, SDI31_260, SDI32_260, SDI33_260, SDI34_260, SDI35_260, SDI36_260, SDI37_260, SDI38_260, SDI39_260, SDI40_260, SDI41_260, SDI42_260, SDI43_260, SDI44_260, SDI45_260, SDI46_260, SDI47_260, SDI48_260, SDI49_260, SDI50_260))
+
+SE_260 <- t(data.frame(SDI18_260_SE, SDI19_260_SE, SDI20_260_SE, SDI21_260_SE, SDI22_260_SE, SDI23_260_SE, SDI24_260_SE, SDI25_260_SE, SDI26_260_SE, SDI27_260_SE, SDI28_260_SE, SDI29_260_SE, SDI30_260_SE, SDI31_260_SE, SDI32_260_SE, SDI33_260_SE, SDI34_260_SE, SDI35_260_SE, SDI36_260_SE, SDI37_260_SE, SDI38_260_SE, SDI39_260_SE, SDI40_260_SE, SDI41_260_SE, SDI42_260_SE, SDI43_260_SE, SDI44_260_SE, SDI45_260_SE, SDI46_260_SE, SDI47_260_SE, SDI48_260_SE, SDI49_260_SE, SDI50_260_SE))
+
+
+
+# Pri Vectors
+
+Mean300 <- t(data.frame(SDI18_300, SDI19_300, SDI20_300, SDI21_300, SDI22_300, SDI23_300, SDI24_300, SDI25_300, SDI26_300, SDI27_300, SDI28_300, SDI29_300, SDI30_300, SDI31_300, SDI32_300, SDI33_300, SDI34_300, SDI35_300, SDI36_300, SDI37_300, SDI38_300, SDI39_300, SDI40_300, SDI41_300, SDI42_300, SDI43_300, SDI44_300, SDI45_300, SDI46_300, SDI47_300, SDI48_300, SDI49_300, SDI50_300))
+
+SE_300 <- t(data.frame(SDI18_300_SE, SDI19_300_SE, SDI20_300_SE, SDI21_300_SE, SDI22_300_SE, SDI23_300_SE, SDI24_300_SE, SDI25_300_SE, SDI26_300_SE, SDI27_300_SE, SDI28_300_SE, SDI29_300_SE, SDI30_300_SE, SDI31_300_SE, SDI32_300_SE, SDI33_300_SE, SDI34_300_SE, SDI35_300_SE, SDI36_300_SE, SDI37_300_SE, SDI38_300_SE, SDI39_300_SE, SDI40_300_SE, SDI41_300_SE, SDI42_300_SE, SDI43_300_SE, SDI44_300_SE, SDI45_300_SE, SDI46_300_SE, SDI47_300_SE, SDI48_300_SE, SDI49_300_SE, SDI50_300_SE))
+
+
+# Year Vector
+
+Year <- c("2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032", "2033", "2034", "2035", "2036", "2037", "2038", "2039", "2040", "2041", "2042", "2043", "2044", "2045", "2046", "2047", "2048", "2049", "2050")
+
+# Combining Mean, Year, SD, and SE into one data fram
+
+SDI260_Data <- data.frame(Mean260, Year, SE_260)
+NT_Data <- data.frame(MeanNT, Year, SE_NT)
+SDI300_Data <- data.frame(Mean300, Year, SE_300)
+
+# Adding treatment type vector to individual treatments
+
+SDI260_Data_Merge <- SDI260_Data %>% 
+  mutate("SDI 260")
+
+# Naming columns for GGPlot
+
+colnames(SDI260_Data_Merge) <- c("CFL", "Year", "SE", "Treatment")
+
+# Stating that treatment is a factor (May or may not matter)
+
+#SDI260_Data_Merge_Quart$Treatment <- as.factor(SDI260_Data_Merge_Quart$Treatment)
+
+SDI300_Data_Merge <- SDI300_Data %>% 
+  mutate("SDI 300")
+
+colnames(SDI300_Data_Merge) <- c("CFL", "Year", "SE", "Treatment")
+
+#SDI300_Data_Merge_Quart$Treatment <- as.factor(SDI300_Data_Merge_Quart$Treatment)
+
+NT_Data_Merge <- NT_Data %>% 
+  mutate("No Treatment")
+
+colnames(NT_Data_Merge) <- c("CFL", "Year", "SE", "Treatment")
+
+
+#NT_Data_Merge_Quart$Treatment <- as.factor(NT_Data_Merge_Quart$Treatment)
+
+
+# Merging Data frame for each treatment (with its mean, year, SD, an SE) into one dataframe
+
+MergedData <- rbind(SDI260_Data_Merge, SDI300_Data_Merge, NT_Data_Merge)
+
+
+
+ggplot(data = MergedData, aes(x = Year, y = CFL, color = Treatment)) +
+  geom_point() +
+  xlab("Year") +
+  ylab("Mean Conditional Flame Length (ft)") +
+  ggtitle("Conditional Flame Length Under Different Treatment Scenarios") +
+  theme_bw() +
+  scale_x_discrete(breaks = seq(2020, 2050, 5)) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  geom_errorbar(aes(ymin=CFL - SE, ymax = CFL + SE), width=1)
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+# CFL Reduction for WebApp
+
+
+
+
+Now creating data frames for the average CFL in each pixel in each treatment (A dataframe for each treatment)
+
+Can use vectors as well, if you use a dataframe you have to tell it which column you're using
+
+
+```{r All Treatment Dataframe Creation}
+
+NT_Average_ExpectedWind <- Subset_2000 %>% 
+  select(Average_nt) %>% 
+  mutate("No Treatment") %>% 
+  mutate("Modeled Wind")
+
+colnames(NT_Average_ExpectedWind) <- c("CFL", "Treatment", "Wind")
+
+SDI300_Average_ExpectedWind <- Subset_2000 %>% 
+  select(Average_300) %>% 
+  mutate("SDI 300") %>% 
+  mutate("Modeled Wind")
+
+colnames(SDI300_Average_ExpectedWind) <- c("CFL", "Treatment", "Wind")
+
+SDI260_Average_ExpectedWind <- Subset_2000 %>% 
+  select(Average_260) %>% 
+  mutate("SDI 260") %>% 
+  mutate("Modeled Wind")
+
+colnames(SDI260_Average_ExpectedWind) <- c("CFL", "Treatment", "Wind")
+
+Pri_Average_ExpectedWind <- Subset_2000_Pri %>% 
+  select(Average_Pri) %>% 
+  mutate("Prioritized") %>% 
+  mutate("Modeled Wind")
+
+colnames(Pri_Average_ExpectedWind) <- c("CFL", "Treatment", "Wind")
+
+SDI300_CFL_Reduction <- Subset_2000 %>% 
+  mutate(CFL_Red = Average_nt - Average_300) %>% 
+  select(CFL_Red)
+
+SDI260_CFL_Reduction <- Subset_2000 %>% 
+  mutate(CFL_Red = Average_nt - Average_260) %>% 
+  select(CFL_Red)
+
+SDI260_CFL_Reduction_NoPiles <- Subset_2000_NoPiles %>% 
+  mutate(CFL_Red = Average_nt - Average_260) %>% 
+  select(CFL_Red)
+
+
+Subset_2000 <- read.csv("H:/2018 Winter/ESM 244 Adv Data Analysis/WebApp Code/Subset_2000.csv")
+
+SDI260_CFL_Change <- Subset_2000 %>% 
+  mutate(CFL_Change = Average_260 - Average_nt) %>% 
+  select(CFL_Change)
+
+
+#dplyr::select(CFL_Change)
+#library(raster)
+#detach(package:raster)
+
+
+#hist(SDI300_CFL_Reduction$CFL_Red)
+#hist(SDI260_CFL_Reduction$CFL_Red)
+
+SDI_300_CFL_Red_Vector <- SDI300_CFL_Reduction$CFL_Red
+
+All_Treatments <- rbind(NT_Average_ExpectedWind, SDI300_Average_ExpectedWind, SDI260_Average_ExpectedWind, Pri_Average_ExpectedWind)
+
+
+Some_Treatments <- rbind(SDI300_Average_ExpectedWind, SDI260_Average_ExpectedWind)
+
+# Mutate to add treatment column, rename, and then rbind?
+
+```
+
+
+
+
+
+```{r CFL Reduction, CFL All Treatments, fig.height=3, fig.width=7.041}
+
+t.test(SDI260_CFL_Reduction$CFL_Red, alternative = "greater")
+#t.test(SDI_300_CFL_Red_Vector, alternative = "greater") 
+
+
+ggplot(SDI260_CFL_Change, aes(x = CFL_Change)) +
+  geom_histogram(binwidth = 0.1, position = "dodge", color = "black", size = 0.5, aes(fill = cut(CFL_Change, c(-Inf, 0, Inf)))) +
+  scale_fill_manual(name = "CFL_Change", values = c("(-Inf,0]" = "red",
+                                  "(0, Inf]" = "blue"),
+                     labels = c("<= 17", "17 < CFL_Red <= 19", "> 19")) 
+
+
+# Tried just replacing fill code for CFL_Reductions_260 with above code. 
+  # It worked, but it looked different; partly because of legend, format looks a bit different but the data looks the same, other than one peak around 0
+
+
+CFL_Reductions_260_Mod <- ggplot(SDI260_CFL_Change, aes(SDI260_CFL_Change$CFL_Change)) +
+  geom_histogram(binwidth = 0.08, alpha = 1, color = "black", size = 0.5, aes(fill = cut(CFL_Change, c(-Inf, 0.04, Inf)))) +
+  scale_fill_manual(name = "CFL_Change", values = c("(-Inf,0.04]" = "forestgreen",
+                                  "(0.04, Inf]" = "firebrick"),
+                     labels = c("Less Than 0", "Greater Than 0")) +
+  theme_bw(base_size = 20) +
+  theme(legend.position = "none") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  labs(title = "Change in Fire Severity Across the Landscape", x = "Conditional Flame Length Change (ft)", y = "Count") +
+  theme(plot.title = element_text(hjust = 0.5, size = 20))
+
+CFL_Reductions_260_Mod
+# cut function is messing with the bins/they are no longer right next to each other
+  # removing position = dodge swithces it back, but 0 is divided into two colors
+    # moving forward: mess with bin width, mess with cutoffs, until the one above zero is all blue, and the one left of zero is all red
+
+
+
+CFL_Reductions_260 <- ggplot(SDI260_CFL_Reduction, aes(SDI260_CFL_Reduction$CFL_Red)) +
+  geom_histogram(binwidth = 0.1, alpha = 1, position = "dodge", color = "black", size = 0.5, fill = "deepskyblue3") +
+  theme_bw(base_size = 20) +
+  annotate("text", x=7, y=100, label= "Mean Reduction = 0.72 feet", size = 8) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  labs(title = "Reduction in Fire Severity Across the Landscape", x = "Conditional Flame Length Reduction (ft)", y = "Count") +
+  theme(plot.title = element_text(hjust = 0.5, size = 20)) +
+  geom_vline(xintercept = 0, size = 1, colour = "firebrick",
+               linetype = "dashed") 
+
+CFL_Reductions_260
+
+CFL_Reductions_260_NoPiles <- ggplot(SDI260_CFL_Reduction_NoPiles, aes(SDI260_CFL_Reduction_NoPiles$CFL_Red)) +
+  geom_histogram(binwidth = 0.1, alpha = 1, position = "dodge", color = "black", size = 0.5, fill = "deepskyblue3") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  labs(title = "Mean Flame Length Reduction (No Piles)", x = "Conditional Flame Length Reduction (ft)", y = "Count") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  geom_vline(xintercept = 0, size = 1, colour = "firebrick",
+               linetype = "dashed") 
+
+CFL_Reductions_260_NoPiles
+
+
+
+
+
+```
+
+
+CFL Years following Treatment
+
+
+2018, 2028, 2038, 2048
+
+
+
+```{r Post Treatment subset}
+
+SDI_260_2018 <- Subset_2000 %>% 
+  select(`SDI260_FL18`) %>% 
+  mutate("SDI 260 2018")
+
+SDI_300_2018 <- Subset_2000 %>% 
+  select(SDI300_FL18) %>% 
+  mutate("SDI 300 2018")
+
+colnames(SDI_300_2018) <- c("CFL", "Treatment")
+
+colnames(SDI_260_2018) <- c("CFL","Treatment")
+
+SDI_260_2028 <- Subset_2000 %>% 
+  select(`SDI260_FL28`) %>% 
+  mutate("SDI 260 2028")
+
+colnames(SDI_260_2028) <- c("CFL","Treatment")
+
+SDI_260_2038 <- Subset_2000 %>% 
+  select(`SDI260_FL38`) %>% 
+  mutate("SDI 260 2038")
+
+colnames(SDI_260_2038) <- c("CFL","Treatment")
+  
+SDI_260_2048 <- Subset_2000 %>% 
+  select(`SDI260_FL48`) %>% 
+  mutate("SDI 260 2048")
+
+colnames(SDI_260_2048) <- c("CFL","Treatment")
+
+NT_2018 <- Subset_2000 %>% 
+  select(NT_FL18) %>% 
+  mutate("No Treatment 2018")
+
+colnames(NT_2018) <- c("CFL", "Treatment")
+
+NT_2028 <- Subset_2000 %>% 
+  select(NT_FL28) %>% 
+  mutate("No Treatment 2028")
+
+colnames(NT_2028) <- c("CFL", "Treatment")
+
+NT_2038 <- Subset_2000 %>% 
+  select(NT_FL38) %>% 
+  mutate("No Treatment 2038")
+  
+colnames(NT_2038) <- c("CFL", "Treatment")
+
+NT_2048 <- Subset_2000 %>% 
+  select(NT_FL48) %>% 
+  mutate("No Treatment 2048")
+  
+colnames(NT_2048) <- c("CFL", "Treatment")
+
+Treatment_2018 <- rbind(SDI_260_2018, NT_2018)
+
+Treatment_2028 <- rbind(SDI_260_2028, NT_2028)
+
+Treatment_2038 <- rbind(SDI_260_2038, NT_2038)
+
+Treatment_2048 <- rbind(SDI_260_2048, NT_2048)
+
+
+Treatments_2018_Dens <- ggplot(Treatment_2018, aes(x = CFL, colour = Treatment)) +
+  geom_density(alpha = 0, position = "identity") +
+  scale_x_continuous(name = "Conditional Flame Length") +
+  ggtitle("Mean Conditional Flame Length") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme_bw()
+
+Treatments_2018_Dens
+
+Treatments_2028_Dens <- ggplot(Treatment_2028, aes(x = CFL, colour = Treatment)) +
+  geom_density(alpha = 0) +
+  scale_x_continuous(name = "Conditional Flame Length") +
+  ggtitle("Mean Conditional Flame Length") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme_bw()
+
+Treatments_2028_Dens
+
+Treatments_2038_Dens <- ggplot(Treatment_2038, aes(x = CFL, colour = Treatment)) +
+  geom_density(alpha = 0) +
+  scale_x_continuous(name = "Conditional Flame Length") +
+  ggtitle("Mean Conditional Flame Length") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme_bw()
+
+Treatments_2038_Dens
+
+Treatments_2048_Dens <- ggplot(Treatment_2048, aes(x = CFL, colour = Treatment)) +
+  geom_density(alpha = 0) +
+  scale_x_continuous(name = "Conditional Flame Length") +
+  ggtitle("Mean Conditional Flame Length") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme_bw()
+
+Treatments_2048_Dens
+
+Treatments_2018_Hist <- ggplot(Treatment_2018, aes(Treatment_2018$CFL, fill = Treatment)) +
+  geom_histogram(binwidth = 0.5, alpha = 1, position = "dodge") +
+  theme_bw() +
+  labs(title = "Mean Conditional Flame Length", x = "Conditional Flame Length", y = "Count") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+Treatments_2018_Hist
+
+Treatments_2028_Hist <- ggplot(Treatment_2028, aes(Treatment_2028$CFL, fill = Treatment)) +
+  geom_histogram(binwidth = 0.5, alpha = 1, position = "dodge") +
+  theme_bw() +
+  labs(title = "Mean Conditional Flame Length", x = "Conditional Flame Length", y = "Count") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+Treatments_2028_Hist
+
+Treatments_2038_Hist <- ggplot(Treatment_2038, aes(Treatment_2038$CFL, fill = Treatment)) +
+  geom_histogram(binwidth = 0.5, alpha = 1, position = "dodge") +
+  theme_bw() +
+  labs(title = "Mean Conditional Flame Length", x = "Conditional Flame Length", y = "Count") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+Treatments_2038_Hist
+
+Treatments_2048_Hist <- ggplot(Treatment_2048, aes(Treatment_2048$CFL, fill = Treatment)) +
+  geom_histogram(binwidth = 0.5, alpha = 1, position = "dodge") +
+  theme_bw() +
+  labs(title = "Mean Conditional Flame Length", x = "Conditional Flame Length", y = "Count") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+Treatments_2048_Hist
+
+
+
+```
+
+
+col names, then r bind, then ggplot
+
+
+
+
+
+
+Next steps after/before:
+
+# Prioritized Subset
+
+
+
+
+Create histogram with NT, 260SDI, and Pri (just rbind the final dataframe for all_treatments and Pri)
+
+Prioritized treatment line graph
+
+
+
+```{r Data Wrangling}
+
+
+Pri_Subset_Average <- Subset_2000_Pri %>% 
+  select(Average_Pri) %>% 
+  mutate("Prioritized Treatment")
+
+colnames(Pri_Subset_Average) <- c("CFL", "Treatment")
+
+
+SDI260_Subset_Average <- Subset_2000 %>% 
+  select(Average_260) %>% 
+  mutate("SDI 260")
+
+colnames(SDI260_Subset_Average) <- c("CFL", "Treatment")
+
+SDI260_Pri <- rbind(Pri_Subset_Average, SDI260_Subset_Average)
+
+SDI260_Pri_Hist <- ggplot(SDI260_Pri, aes(x = CFL, fill = Treatment)) +
+  geom_histogram(binwidth = 0.5, alpha = 1, position = "dodge", color = "black") +
+  theme_bw() +
+  labs(title = "Mean Conditional Flame Length", x = "Conditional Flame Length", y = "Count") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  geom_density()
+
+# It is plotting density, but it's doing it on the same axis as count, resulting in a line on the x axis
+
+SDI260_Pri_Hist
+
+All_Treatments$Treatment <- as.factor(All_Treatments$Treatment)
+#contrasts(All_Treatments$Treatment)
+
+#relevel(All_Treatments$Treatment, "No Treatment")
+
+SDI260_Pri$Treatment <- factor(SDI260_Pri$Treatment, levels = c("SDI 260", "Prioritized Treatment"))
+
+
+
+
+
+
+```
+
+
+```{r Data Analysis}
+
+t.test(Pri_Subset_Average$CFL, SDI260_Subset_Average$CFL, mu = 0, alternative = "greater", paired = TRUE)
+# Priimal treatment has significantly greater flame length
+  # Mean difference was 0.08ft
+
+Mean_Pri <- mean(Pri_Subset_Average$CFL)
+Mean_SDI260_Subset <- mean(SDI260_Subset_Average$CFL)
+Mean_SDI300_Subset <- mean(Subset_2000$Average_300)
+Mean_NT_Subset <- mean(Subset_2000$Average_nt)
+
+
+
+```
+
+
+SDI260 vs Pri Vs Time
+
+
+
+```{r SDI260 vs Pri vs Time}
+
+SDI260_18_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL18) %>% 
+  filter(SDI260_FL18 > 0) %>% 
+  arrange(-SDI260_FL18) %>% 
+  mutate(CFL = SDI260_FL18) %>% 
+  select(CFL)
+
+
+SDI260_19_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL19) %>% 
+  filter(SDI260_FL19 > 0) %>% 
+  arrange(-SDI260_FL19) %>% 
+  mutate(CFL = SDI260_FL19) %>% 
+  select(CFL)
+
+
+SDI260_20_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL20) %>% 
+  filter(SDI260_FL20 > 0) %>% 
+  arrange(-SDI260_FL20) %>% 
+  mutate(CFL = SDI260_FL20) %>% 
+  select(CFL)
+
+SDI260_21_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL21) %>% 
+  filter(SDI260_FL21 > 0) %>% 
+  arrange(-SDI260_FL21) %>% 
+  mutate(CFL = SDI260_FL21) %>% 
+  select(CFL) 
+  
+
+SDI260_22_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL22) %>% 
+  filter(SDI260_FL22 > 0) %>% 
+  arrange(-SDI260_FL22) %>% 
+  mutate(CFL = SDI260_FL22) %>% 
+  select(CFL) 
+  
+
+SDI260_23_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL23) %>% 
+  filter(SDI260_FL23 > 0) %>% 
+  arrange(-SDI260_FL23) %>% 
+  mutate(CFL = SDI260_FL23) %>% 
+  select(CFL) 
+  
+
+SDI260_24_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL24) %>% 
+  filter(SDI260_FL24 > 0) %>% 
+  arrange(-SDI260_FL24) %>% 
+  mutate(CFL = SDI260_FL24) %>% 
+  select(CFL) 
+  
+
+SDI260_25_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL25) %>% 
+  filter(SDI260_FL25 > 0) %>% 
+  arrange(-SDI260_FL25) %>% 
+  mutate(CFL = SDI260_FL25) %>% 
+  select(CFL) 
+  
+
+SDI260_26_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL26) %>% 
+  filter(SDI260_FL26 > 0) %>% 
+  arrange(-SDI260_FL26) %>% 
+  mutate(CFL = SDI260_FL26) %>% 
+  select(CFL) 
+  
+
+SDI260_27_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL27) %>% 
+  filter(SDI260_FL27 > 0) %>% 
+  arrange(-SDI260_FL27) %>% 
+  mutate(CFL = SDI260_FL27) %>% 
+  select(CFL) 
+  
+
+SDI260_28_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL28) %>% 
+  filter(SDI260_FL28 > 0) %>% 
+  arrange(-SDI260_FL28) %>% 
+  mutate(CFL = SDI260_FL28) %>% 
+  select(CFL) 
+  
+
+SDI260_29_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL29) %>% 
+  filter(SDI260_FL29 > 0) %>% 
+  arrange(-SDI260_FL29) %>% 
+  mutate(CFL = SDI260_FL29) %>% 
+  select(CFL) 
+  
+
+SDI260_30_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL30) %>% 
+  filter(SDI260_FL30 > 0) %>% 
+  arrange(-SDI260_FL30) %>%
+  mutate(CFL = SDI260_FL30) %>% 
+  select(CFL) 
+  
+
+SDI260_31_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL31) %>% 
+  filter(SDI260_FL31 > 0) %>% 
+  arrange(-SDI260_FL31) %>%
+  mutate(CFL = SDI260_FL31) %>% 
+  select(CFL) 
+  
+
+SDI260_32_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL32) %>% 
+  filter(SDI260_FL32 > 0) %>% 
+  arrange(-SDI260_FL32) %>%
+  mutate(CFL = SDI260_FL32) %>% 
+  select(CFL) 
+  
+
+SDI260_33_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL33) %>% 
+  filter(SDI260_FL33 > 0) %>% 
+  arrange(-SDI260_FL33) %>%
+  mutate(CFL = SDI260_FL33) %>% 
+  select(CFL) 
+  
+
+SDI260_34_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL34) %>% 
+  filter(SDI260_FL34 > 0) %>% 
+  arrange(-SDI260_FL34) %>%
+  mutate(CFL = SDI260_FL34) %>% 
+  select(CFL) 
+  
+
+SDI260_35_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL35) %>% 
+  filter(SDI260_FL35 > 0) %>% 
+  arrange(-SDI260_FL35) %>%
+  mutate(CFL = SDI260_FL35) %>% 
+  select(CFL) 
+  
+
+SDI260_36_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL36) %>% 
+  filter(SDI260_FL36 > 0) %>% 
+  arrange(-SDI260_FL36) %>%
+  mutate(CFL = SDI260_FL36) %>% 
+  select(CFL) 
+  
+
+SDI260_37_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL37) %>% 
+  filter(SDI260_FL37 > 0) %>% 
+  arrange(-SDI260_FL37) %>%
+  mutate(CFL = SDI260_FL37) %>% 
+  select(CFL) 
+  
+
+SDI260_38_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL38) %>% 
+  filter(SDI260_FL38 > 0) %>% 
+  arrange(-SDI260_FL38) %>%
+  mutate(CFL = SDI260_FL38) %>% 
+  select(CFL) 
+  
+
+SDI260_39_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL39) %>% 
+  filter(SDI260_FL39 > 0) %>% 
+  arrange(-SDI260_FL39) %>%
+  mutate(CFL = SDI260_FL39) %>% 
+  select(CFL) 
+  
+
+SDI260_40_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL40) %>% 
+  filter(SDI260_FL40 > 0) %>% 
+  arrange(-SDI260_FL40) %>%
+  mutate(CFL = SDI260_FL40) %>% 
+  select(CFL) 
+  
+  
+SDI260_41_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL41) %>% 
+  filter(SDI260_FL41 > 0) %>% 
+  arrange(-SDI260_FL41) %>%
+  mutate(CFL = SDI260_FL41) %>% 
+  select(CFL) 
+  
+  
+
+SDI260_42_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL42) %>% 
+  filter(SDI260_FL42 > 0) %>% 
+  arrange(-SDI260_FL42) %>%
+  mutate(CFL = SDI260_FL42) %>% 
+  select(CFL) 
+  
+  
+
+SDI260_43_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL43) %>% 
+  filter(SDI260_FL43 > 0) %>% 
+  arrange(-SDI260_FL43)  %>%
+  mutate(CFL = SDI260_FL43) %>% 
+  select(CFL) 
+  
+  
+SDI260_44_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL44) %>% 
+  filter(SDI260_FL44 > 0) %>% 
+  arrange(-SDI260_FL44) %>%
+  mutate(CFL = SDI260_FL44) %>% 
+  select(CFL) 
+  
+  
+SDI260_45_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL45) %>% 
+  filter(SDI260_FL45 > 0) %>% 
+  arrange(-SDI260_FL45) %>%
+  mutate(CFL = SDI260_FL45) %>% 
+  select(CFL) 
+  
+  
+SDI260_46_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL46) %>%
+  filter(SDI260_FL46 > 0) %>% 
+  arrange(-SDI260_FL46) %>% 
+  mutate(CFL = SDI260_FL46) %>% 
+  select(CFL) 
+  
+  
+SDI260_47_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL47) %>% 
+  filter(SDI260_FL47 > 0) %>% 
+  arrange(-SDI260_FL47) %>%
+  mutate(CFL = SDI260_FL47) %>% 
+  select(CFL) 
+  
+  
+SDI260_48_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL48) %>% 
+  filter(SDI260_FL48 > 0) %>% 
+  arrange(-SDI260_FL48) %>%
+  mutate(CFL = SDI260_FL48) %>% 
+  select(CFL) 
+  
+  
+SDI260_49_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL49) %>% 
+  filter(SDI260_FL49 > 0) %>% 
+  filter(SDI260_FL49 < 100) %>% 
+  arrange(-SDI260_FL49) %>%
+  mutate(CFL = SDI260_FL49) %>% 
+  select(CFL) 
+  
+  
+SDI260_50_CFL <- `Subset_2000` %>% 
+  select(SDI260_FL50) %>% 
+  filter(SDI260_FL50 > 0) %>% 
+  arrange(-SDI260_FL50)  %>%
+  mutate(CFL = SDI260_FL50) %>% 
+  select(CFL) 
+
+
+
+
+
+
+
+
+  
+Pri_18_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL18) %>% 
+  filter(Pri_FL18 > 0) %>% 
+  arrange(-Pri_FL18) %>% 
+  mutate(CFL = Pri_FL18) %>% 
+  select(CFL)
+
+
+
+Pri_19_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL19) %>% 
+  filter(Pri_FL19 > 0) %>% 
+  arrange(-Pri_FL19) %>% 
+  mutate(CFL = Pri_FL19) %>% 
+  select(CFL)
+
+
+Pri_20_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL20) %>% 
+  filter(Pri_FL20 > 0) %>% 
+  arrange(-Pri_FL20) %>% 
+  mutate(CFL = Pri_FL20) %>% 
+  select(CFL)
+
+Pri_21_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL21) %>% 
+  filter(Pri_FL21 > 0) %>% 
+  arrange(-Pri_FL21) %>% 
+  mutate(CFL = Pri_FL21) %>% 
+  select(CFL) 
+  
+
+Pri_22_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL22) %>% 
+  filter(Pri_FL22 > 0) %>% 
+  arrange(-Pri_FL22) %>% 
+  mutate(CFL = Pri_FL22) %>% 
+  select(CFL) 
+  
+
+Pri_23_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL23) %>% 
+  filter(Pri_FL23 > 0) %>% 
+  arrange(-Pri_FL23) %>% 
+  mutate(CFL = Pri_FL23) %>% 
+  select(CFL) 
+  
+
+Pri_24_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL24) %>% 
+  filter(Pri_FL24 > 0) %>% 
+  arrange(-Pri_FL24) %>% 
+  mutate(CFL = Pri_FL24) %>% 
+  select(CFL) 
+  
+
+Pri_25_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL25) %>% 
+  filter(Pri_FL25 > 0) %>% 
+  arrange(-Pri_FL25) %>% 
+  mutate(CFL = Pri_FL25) %>% 
+  select(CFL) 
+  
+
+Pri_26_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL26) %>% 
+  filter(Pri_FL26 > 0) %>% 
+  arrange(-Pri_FL26) %>% 
+  mutate(CFL = Pri_FL26) %>% 
+  select(CFL) 
+  
+
+Pri_27_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL27) %>% 
+  filter(Pri_FL27 > 0) %>% 
+  arrange(-Pri_FL27) %>% 
+  mutate(CFL = Pri_FL27) %>% 
+  select(CFL) 
+  
+
+Pri_28_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL28) %>% 
+  filter(Pri_FL28 > 0) %>% 
+  arrange(-Pri_FL28) %>% 
+  mutate(CFL = Pri_FL28) %>% 
+  select(CFL) 
+  
+
+Pri_29_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL29) %>% 
+  filter(Pri_FL29 > 0) %>% 
+  arrange(-Pri_FL29) %>% 
+  mutate(CFL = Pri_FL29) %>% 
+  select(CFL) 
+  
+
+Pri_30_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL30) %>% 
+  filter(Pri_FL30 > 0) %>% 
+  arrange(-Pri_FL30) %>%
+  mutate(CFL = Pri_FL30) %>% 
+  select(CFL) 
+  
+
+Pri_31_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL31) %>% 
+  filter(Pri_FL31 > 0) %>% 
+  arrange(-Pri_FL31) %>%
+  mutate(CFL = Pri_FL31) %>% 
+  select(CFL) 
+  
+
+Pri_32_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL32) %>% 
+  filter(Pri_FL32 > 0) %>% 
+  arrange(-Pri_FL32) %>%
+  mutate(CFL = Pri_FL32) %>% 
+  select(CFL) 
+  
+
+Pri_33_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL33) %>% 
+  filter(Pri_FL33 > 0) %>% 
+  arrange(-Pri_FL33) %>%
+  mutate(CFL = Pri_FL33) %>% 
+  select(CFL) 
+  
+
+Pri_34_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL34) %>% 
+  filter(Pri_FL34 > 0) %>% 
+  arrange(-Pri_FL34) %>%
+  mutate(CFL = Pri_FL34) %>% 
+  select(CFL) 
+  
+
+Pri_35_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL35) %>% 
+  filter(Pri_FL35 > 0) %>% 
+  arrange(-Pri_FL35) %>%
+  mutate(CFL = Pri_FL35) %>% 
+  select(CFL) 
+  
+
+Pri_36_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL36) %>% 
+  filter(Pri_FL36 > 0) %>% 
+  arrange(-Pri_FL36) %>%
+  mutate(CFL = Pri_FL36) %>% 
+  select(CFL) 
+  
+
+Pri_37_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL37) %>% 
+  filter(Pri_FL37 > 0) %>% 
+  arrange(-Pri_FL37) %>%
+  mutate(CFL = Pri_FL37) %>% 
+  select(CFL) 
+  
+
+Pri_38_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL38) %>% 
+  filter(Pri_FL38 > 0) %>% 
+  arrange(-Pri_FL38) %>%
+  mutate(CFL = Pri_FL38) %>% 
+  select(CFL) 
+  
+
+Pri_39_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL39) %>% 
+  filter(Pri_FL39 > 0) %>% 
+  arrange(-Pri_FL39) %>%
+  mutate(CFL = Pri_FL39) %>% 
+  select(CFL) 
+  
+
+Pri_40_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL40) %>% 
+  filter(Pri_FL40 > 0) %>% 
+  arrange(-Pri_FL40) %>%
+  mutate(CFL = Pri_FL40) %>% 
+  select(CFL) 
+  
+  
+Pri_41_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL41) %>% 
+  filter(Pri_FL41 > 0) %>% 
+  arrange(-Pri_FL41) %>%
+  mutate(CFL = Pri_FL41) %>% 
+  select(CFL) 
+  
+  
+
+Pri_42_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL42) %>% 
+  filter(Pri_FL42 > 0) %>% 
+  arrange(-Pri_FL42) %>%
+  mutate(CFL = Pri_FL42) %>% 
+  select(CFL) 
+  
+  
+
+Pri_43_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL43) %>% 
+  filter(Pri_FL43 > 0) %>% 
+  arrange(-Pri_FL43)  %>%
+  mutate(CFL = Pri_FL43) %>% 
+  select(CFL) 
+  
+  
+Pri_44_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL44) %>% 
+  filter(Pri_FL44 > 0) %>% 
+  arrange(-Pri_FL44) %>%
+  mutate(CFL = Pri_FL44) %>% 
+  select(CFL) 
+  
+  
+Pri_45_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL45) %>% 
+  filter(Pri_FL45 > 0) %>% 
+  arrange(-Pri_FL45) %>%
+  mutate(CFL = Pri_FL45) %>% 
+  select(CFL) 
+  
+  
+Pri_46_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL46) %>%
+  filter(Pri_FL46 > 0) %>% 
+  arrange(-Pri_FL46) %>% 
+  mutate(CFL = Pri_FL46) %>% 
+  select(CFL) 
+  
+  
+Pri_47_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL47) %>% 
+  filter(Pri_FL47 > 0) %>% 
+  arrange(-Pri_FL47) %>%
+  mutate(CFL = Pri_FL47) %>% 
+  select(CFL) 
+  
+  
+Pri_48_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL48) %>% 
+  filter(Pri_FL48 > 0) %>% 
+  arrange(-Pri_FL48) %>%
+  mutate(CFL = Pri_FL48) %>% 
+  select(CFL) 
+  
+  
+Pri_49_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL49) %>% 
+  filter(Pri_FL49 > 0) %>% 
+  filter(Pri_FL49 < 100) %>% 
+  arrange(-Pri_FL49) %>%
+  mutate(CFL = Pri_FL49) %>% 
+  select(CFL) 
+  
+  
+Pri_50_CFL_Pri <- `Subset_2000_Pri` %>% 
+  select(Pri_FL50) %>% 
+  filter(Pri_FL50 > 0) %>% 
+  arrange(-Pri_FL50)  %>%
+  mutate(CFL = Pri_FL50) %>% 
+  select(CFL) 
+  
+
+
+
+
+
+
+
+
+
+  
+NT_18_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL18) %>% 
+  filter(NT_FL18 > 0) %>% 
+  arrange(-NT_FL18) %>% 
+  mutate(CFL = NT_FL18) %>% 
+  select(CFL)
+
+
+
+NT_19_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL19) %>% 
+  filter(NT_FL19 > 0) %>% 
+  arrange(-NT_FL19) %>% 
+  mutate(CFL = NT_FL19) %>% 
+  select(CFL)
+
+
+NT_20_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL20) %>% 
+  filter(NT_FL20 > 0) %>% 
+  arrange(-NT_FL20) %>% 
+  mutate(CFL = NT_FL20) %>% 
+  select(CFL)
+
+NT_21_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL21) %>% 
+  filter(NT_FL21 > 0) %>% 
+  arrange(-NT_FL21) %>% 
+  mutate(CFL = NT_FL21) %>% 
+  select(CFL) 
+  
+
+NT_22_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL22) %>% 
+  filter(NT_FL22 > 0) %>% 
+  arrange(-NT_FL22) %>% 
+  mutate(CFL = NT_FL22) %>% 
+  select(CFL) 
+  
+
+NT_23_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL23) %>% 
+  filter(NT_FL23 > 0) %>% 
+  arrange(-NT_FL23) %>% 
+  mutate(CFL = NT_FL23) %>% 
+  select(CFL) 
+  
+
+NT_24_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL24) %>% 
+  filter(NT_FL24 > 0) %>% 
+  arrange(-NT_FL24) %>% 
+  mutate(CFL = NT_FL24) %>% 
+  select(CFL) 
+  
+
+NT_25_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL25) %>% 
+  filter(NT_FL25 > 0) %>% 
+  arrange(-NT_FL25) %>% 
+  mutate(CFL = NT_FL25) %>% 
+  select(CFL) 
+  
+
+NT_26_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL26) %>% 
+  filter(NT_FL26 > 0) %>% 
+  arrange(-NT_FL26) %>% 
+  mutate(CFL = NT_FL26) %>% 
+  select(CFL) 
+  
+
+NT_27_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL27) %>% 
+  filter(NT_FL27 > 0) %>% 
+  arrange(-NT_FL27) %>% 
+  mutate(CFL = NT_FL27) %>% 
+  select(CFL) 
+  
+
+NT_28_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL28) %>% 
+  filter(NT_FL28 > 0) %>% 
+  arrange(-NT_FL28) %>% 
+  mutate(CFL = NT_FL28) %>% 
+  select(CFL) 
+  
+
+NT_29_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL29) %>% 
+  filter(NT_FL29 > 0) %>% 
+  arrange(-NT_FL29) %>% 
+  mutate(CFL = NT_FL29) %>% 
+  select(CFL) 
+  
+
+NT_30_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL30) %>% 
+  filter(NT_FL30 > 0) %>% 
+  arrange(-NT_FL30) %>%
+  mutate(CFL = NT_FL30) %>% 
+  select(CFL) 
+  
+
+NT_31_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL31) %>% 
+  filter(NT_FL31 > 0) %>% 
+  arrange(-NT_FL31) %>%
+  mutate(CFL = NT_FL31) %>% 
+  select(CFL) 
+  
+
+NT_32_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL32) %>% 
+  filter(NT_FL32 > 0) %>% 
+  arrange(-NT_FL32) %>%
+  mutate(CFL = NT_FL32) %>% 
+  select(CFL) 
+  
+
+NT_33_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL33) %>% 
+  filter(NT_FL33 > 0) %>% 
+  arrange(-NT_FL33) %>%
+  mutate(CFL = NT_FL33) %>% 
+  select(CFL) 
+  
+
+NT_34_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL34) %>% 
+  filter(NT_FL34 > 0) %>% 
+  arrange(-NT_FL34) %>%
+  mutate(CFL = NT_FL34) %>% 
+  select(CFL) 
+  
+
+NT_35_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL35) %>% 
+  filter(NT_FL35 > 0) %>% 
+  arrange(-NT_FL35) %>%
+  mutate(CFL = NT_FL35) %>% 
+  select(CFL) 
+  
+
+NT_36_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL36) %>% 
+  filter(NT_FL36 > 0) %>% 
+  arrange(-NT_FL36) %>%
+  mutate(CFL = NT_FL36) %>% 
+  select(CFL) 
+  
+
+NT_37_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL37) %>% 
+  filter(NT_FL37 > 0) %>% 
+  arrange(-NT_FL37) %>%
+  mutate(CFL = NT_FL37) %>% 
+  select(CFL) 
+  
+
+NT_38_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL38) %>% 
+  filter(NT_FL38 > 0) %>% 
+  arrange(-NT_FL38) %>%
+  mutate(CFL = NT_FL38) %>% 
+  select(CFL) 
+  
+
+NT_39_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL39) %>% 
+  filter(NT_FL39 > 0) %>% 
+  arrange(-NT_FL39) %>%
+  mutate(CFL = NT_FL39) %>% 
+  select(CFL) 
+  
+
+NT_40_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL40) %>% 
+  filter(NT_FL40 > 0) %>% 
+  arrange(-NT_FL40) %>%
+  mutate(CFL = NT_FL40) %>% 
+  select(CFL) 
+  
+  
+NT_41_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL41) %>% 
+  filter(NT_FL41 > 0) %>% 
+  arrange(-NT_FL41) %>%
+  mutate(CFL = NT_FL41) %>% 
+  select(CFL) 
+  
+  
+
+NT_42_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL42) %>% 
+  filter(NT_FL42 > 0) %>% 
+  arrange(-NT_FL42) %>%
+  mutate(CFL = NT_FL42) %>% 
+  select(CFL) 
+  
+  
+
+NT_43_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL43) %>% 
+  filter(NT_FL43 > 0) %>% 
+  arrange(-NT_FL43)  %>%
+  mutate(CFL = NT_FL43) %>% 
+  select(CFL) 
+  
+  
+NT_44_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL44) %>% 
+  filter(NT_FL44 > 0) %>% 
+  arrange(-NT_FL44) %>%
+  mutate(CFL = NT_FL44) %>% 
+  select(CFL) 
+  
+  
+NT_45_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL45) %>% 
+  filter(NT_FL45 > 0) %>% 
+  arrange(-NT_FL45) %>%
+  mutate(CFL = NT_FL45) %>% 
+  select(CFL) 
+  
+  
+NT_46_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL46) %>%
+  filter(NT_FL46 > 0) %>% 
+  arrange(-NT_FL46) %>% 
+  mutate(CFL = NT_FL46) %>% 
+  select(CFL) 
+  
+  
+NT_47_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL47) %>% 
+  filter(NT_FL47 > 0) %>% 
+  arrange(-NT_FL47) %>%
+  mutate(CFL = NT_FL47) %>% 
+  select(CFL) 
+  
+  
+NT_48_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL48) %>% 
+  filter(NT_FL48 > 0) %>% 
+  arrange(-NT_FL48) %>%
+  mutate(CFL = NT_FL48) %>% 
+  select(CFL) 
+  
+  
+NT_49_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL49) %>% 
+  filter(NT_FL49 > 0) %>% 
+  filter(NT_FL49 < 100) %>% 
+  arrange(-NT_FL49) %>%
+  mutate(CFL = NT_FL49) %>% 
+  select(CFL) 
+  
+  
+NT_50_CFL_Pri <- `Subset_2000` %>% 
+  select(NT_FL50) %>% 
+  filter(NT_FL50 > 0) %>% 
+  arrange(-NT_FL50)  %>%
+  mutate(CFL = NT_FL50) %>% 
+  select(CFL) 
+
+
+```
+
+
+
+
+```{r Priimal Graph Over Time}
+
+# No Treatment
+
+
+SDI18_NT_Pri <- mean(NT_18_CFL_Pri$CFL)
+SDI19_NT_Pri <- mean(NT_19_CFL_Pri$CFL)
+SDI20_NT_Pri <- mean(NT_20_CFL_Pri$CFL)
+SDI21_NT_Pri <- mean(NT_21_CFL_Pri$CFL)
+SDI22_NT_Pri <- mean(NT_22_CFL_Pri$CFL)
+SDI23_NT_Pri <- mean(NT_23_CFL_Pri$CFL)
+SDI24_NT_Pri <- mean(NT_24_CFL_Pri$CFL)
+SDI25_NT_Pri <- mean(NT_25_CFL_Pri$CFL)
+SDI26_NT_Pri <- mean(NT_26_CFL_Pri$CFL)
+SDI27_NT_Pri <- mean(NT_27_CFL_Pri$CFL)
+SDI28_NT_Pri <- mean(NT_28_CFL_Pri$CFL)
+SDI29_NT_Pri <- mean(NT_29_CFL_Pri$CFL)
+SDI30_NT_Pri <- mean(NT_30_CFL_Pri$CFL)
+SDI31_NT_Pri <- mean(NT_31_CFL_Pri$CFL)
+SDI32_NT_Pri <- mean(NT_32_CFL_Pri$CFL)
+SDI33_NT_Pri <- mean(NT_33_CFL_Pri$CFL)
+SDI34_NT_Pri <- mean(NT_34_CFL_Pri$CFL)
+SDI35_NT_Pri <- mean(NT_35_CFL_Pri$CFL)
+SDI36_NT_Pri <- mean(NT_36_CFL_Pri$CFL)
+SDI37_NT_Pri <- mean(NT_37_CFL_Pri$CFL)
+SDI38_NT_Pri <- mean(NT_38_CFL_Pri$CFL)
+SDI39_NT_Pri <- mean(NT_39_CFL_Pri$CFL)
+SDI40_NT_Pri <- mean(NT_40_CFL_Pri$CFL)
+SDI41_NT_Pri <- mean(NT_41_CFL_Pri$CFL)
+SDI42_NT_Pri <- mean(NT_42_CFL_Pri$CFL)
+SDI43_NT_Pri <- mean(NT_43_CFL_Pri$CFL)
+SDI44_NT_Pri <- mean(NT_44_CFL_Pri$CFL)
+SDI45_NT_Pri <- mean(NT_45_CFL_Pri$CFL)
+SDI46_NT_Pri <- mean(NT_46_CFL_Pri$CFL)
+SDI47_NT_Pri <- mean(NT_47_CFL_Pri$CFL)
+SDI48_NT_Pri <- mean(NT_48_CFL_Pri$CFL)
+SDI49_NT_Pri <- mean(NT_49_CFL_Pri$CFL)
+SDI50_NT_Pri <- mean(NT_50_CFL_Pri$CFL)
+
+SDI18_NT_Pri_SE <- sd(NT_18_CFL_Pri$CFL)/sqrt(2000)
+SDI19_NT_Pri_SE <- sd(NT_19_CFL_Pri$CFL)/sqrt(2000)
+SDI20_NT_Pri_SE <- sd(NT_20_CFL_Pri$CFL)/sqrt(2000)
+SDI21_NT_Pri_SE <- sd(NT_21_CFL_Pri$CFL)/sqrt(2000)
+SDI22_NT_Pri_SE <- sd(NT_22_CFL_Pri$CFL)/sqrt(2000)
+SDI23_NT_Pri_SE <- sd(NT_23_CFL_Pri$CFL)/sqrt(2000)
+SDI24_NT_Pri_SE <- sd(NT_24_CFL_Pri$CFL)/sqrt(2000)
+SDI25_NT_Pri_SE <- sd(NT_25_CFL_Pri$CFL)/sqrt(2000)
+SDI26_NT_Pri_SE <- sd(NT_26_CFL_Pri$CFL)/sqrt(2000)
+SDI27_NT_Pri_SE <- sd(NT_27_CFL_Pri$CFL)/sqrt(2000)
+SDI28_NT_Pri_SE <- sd(NT_28_CFL_Pri$CFL)/sqrt(2000)
+SDI29_NT_Pri_SE <- sd(NT_29_CFL_Pri$CFL)/sqrt(2000)
+SDI30_NT_Pri_SE <- sd(NT_30_CFL_Pri$CFL)/sqrt(2000)
+SDI31_NT_Pri_SE <- sd(NT_31_CFL_Pri$CFL)/sqrt(2000)
+SDI32_NT_Pri_SE <- sd(NT_32_CFL_Pri$CFL)/sqrt(2000)
+SDI33_NT_Pri_SE <- sd(NT_33_CFL_Pri$CFL)/sqrt(2000)
+SDI34_NT_Pri_SE <- sd(NT_34_CFL_Pri$CFL)/sqrt(2000)
+SDI35_NT_Pri_SE <- sd(NT_35_CFL_Pri$CFL)/sqrt(2000)
+SDI36_NT_Pri_SE <- sd(NT_36_CFL_Pri$CFL)/sqrt(2000)
+SDI37_NT_Pri_SE <- sd(NT_37_CFL_Pri$CFL)/sqrt(2000)
+SDI38_NT_Pri_SE <- sd(NT_38_CFL_Pri$CFL)/sqrt(2000)
+SDI39_NT_Pri_SE <- sd(NT_39_CFL_Pri$CFL)/sqrt(2000)
+SDI40_NT_Pri_SE <- sd(NT_40_CFL_Pri$CFL)/sqrt(2000)
+SDI41_NT_Pri_SE <- sd(NT_41_CFL_Pri$CFL)/sqrt(2000)
+SDI42_NT_Pri_SE <- sd(NT_42_CFL_Pri$CFL)/sqrt(2000)
+SDI43_NT_Pri_SE <- sd(NT_43_CFL_Pri$CFL)/sqrt(2000)
+SDI44_NT_Pri_SE <- sd(NT_44_CFL_Pri$CFL)/sqrt(2000)
+SDI45_NT_Pri_SE <- sd(NT_45_CFL_Pri$CFL)/sqrt(2000)
+SDI46_NT_Pri_SE <- sd(NT_46_CFL_Pri$CFL)/sqrt(2000)
+SDI47_NT_Pri_SE <- sd(NT_47_CFL_Pri$CFL)/sqrt(2000)
+SDI48_NT_Pri_SE <- sd(NT_48_CFL_Pri$CFL)/sqrt(2000)
+SDI49_NT_Pri_SE <- sd(NT_49_CFL_Pri$CFL)/sqrt(2000)
+SDI50_NT_Pri_SE <- sd(NT_50_CFL_Pri$CFL)/sqrt(2000)
+
+# SDI 260
+
+SDI18_260 <- mean(SDI260_18_CFL$CFL)
+SDI19_260 <- mean(SDI260_19_CFL$CFL)
+SDI20_260 <- mean(SDI260_20_CFL$CFL)
+SDI21_260 <- mean(SDI260_21_CFL$CFL)
+SDI22_260 <- mean(SDI260_22_CFL$CFL)
+SDI23_260 <- mean(SDI260_23_CFL$CFL)
+SDI24_260 <- mean(SDI260_24_CFL$CFL)
+SDI25_260 <- mean(SDI260_25_CFL$CFL)
+SDI26_260 <- mean(SDI260_26_CFL$CFL)
+SDI27_260 <- mean(SDI260_27_CFL$CFL)
+SDI28_260 <- mean(SDI260_28_CFL$CFL)
+SDI29_260 <- mean(SDI260_29_CFL$CFL)
+SDI30_260 <- mean(SDI260_30_CFL$CFL)
+SDI31_260 <- mean(SDI260_31_CFL$CFL)
+SDI32_260 <- mean(SDI260_32_CFL$CFL)
+SDI33_260 <- mean(SDI260_33_CFL$CFL)
+SDI34_260 <- mean(SDI260_34_CFL$CFL)
+SDI35_260 <- mean(SDI260_35_CFL$CFL)
+SDI36_260 <- mean(SDI260_36_CFL$CFL)
+SDI37_260 <- mean(SDI260_37_CFL$CFL)
+SDI38_260 <- mean(SDI260_38_CFL$CFL)
+SDI39_260 <- mean(SDI260_39_CFL$CFL)
+SDI40_260 <- mean(SDI260_40_CFL$CFL)
+SDI41_260 <- mean(SDI260_41_CFL$CFL)
+SDI42_260 <- mean(SDI260_42_CFL$CFL)
+SDI43_260 <- mean(SDI260_43_CFL$CFL)
+SDI44_260 <- mean(SDI260_44_CFL$CFL)
+SDI45_260 <- mean(SDI260_45_CFL$CFL)
+SDI46_260 <- mean(SDI260_46_CFL$CFL)
+SDI47_260 <- mean(SDI260_47_CFL$CFL)
+SDI48_260 <- mean(SDI260_48_CFL$CFL)
+SDI49_260 <- mean(SDI260_49_CFL$CFL)
+SDI50_260 <- mean(SDI260_50_CFL$CFL)
+
+SDI18_260_SE <- sd(SDI260_18_CFL$CFL)/sqrt(2000)
+SDI19_260_SE <- sd(SDI260_19_CFL$CFL)/sqrt(2000)
+SDI20_260_SE <- sd(SDI260_20_CFL$CFL)/sqrt(2000)
+SDI21_260_SE <- sd(SDI260_21_CFL$CFL)/sqrt(2000)
+SDI22_260_SE <- sd(SDI260_22_CFL$CFL)/sqrt(2000)
+SDI23_260_SE <- sd(SDI260_23_CFL$CFL)/sqrt(2000)
+SDI24_260_SE <- sd(SDI260_24_CFL$CFL)/sqrt(2000)
+SDI25_260_SE <- sd(SDI260_25_CFL$CFL)/sqrt(2000)
+SDI26_260_SE <- sd(SDI260_26_CFL$CFL)/sqrt(2000)
+SDI27_260_SE <- sd(SDI260_27_CFL$CFL)/sqrt(2000)
+SDI28_260_SE <- sd(SDI260_28_CFL$CFL)/sqrt(2000)
+SDI29_260_SE <- sd(SDI260_29_CFL$CFL)/sqrt(2000)
+SDI30_260_SE <- sd(SDI260_30_CFL$CFL)/sqrt(2000)
+SDI31_260_SE <- sd(SDI260_31_CFL$CFL)/sqrt(2000)
+SDI32_260_SE <- sd(SDI260_32_CFL$CFL)/sqrt(2000)
+SDI33_260_SE <- sd(SDI260_33_CFL$CFL)/sqrt(2000)
+SDI34_260_SE <- sd(SDI260_34_CFL$CFL)/sqrt(2000)
+SDI35_260_SE <- sd(SDI260_35_CFL$CFL)/sqrt(2000)
+SDI36_260_SE <- sd(SDI260_36_CFL$CFL)/sqrt(2000)
+SDI37_260_SE <- sd(SDI260_37_CFL$CFL)/sqrt(2000)
+SDI38_260_SE <- sd(SDI260_38_CFL$CFL)/sqrt(2000)
+SDI39_260_SE <- sd(SDI260_39_CFL$CFL)/sqrt(2000)
+SDI40_260_SE <- sd(SDI260_40_CFL$CFL)/sqrt(2000)
+SDI41_260_SE <- sd(SDI260_41_CFL$CFL)/sqrt(2000)
+SDI42_260_SE <- sd(SDI260_42_CFL$CFL)/sqrt(2000)
+SDI43_260_SE <- sd(SDI260_43_CFL$CFL)/sqrt(2000)
+SDI44_260_SE <- sd(SDI260_44_CFL$CFL)/sqrt(2000)
+SDI45_260_SE <- sd(SDI260_45_CFL$CFL)/sqrt(2000)
+SDI46_260_SE <- sd(SDI260_46_CFL$CFL)/sqrt(2000)
+SDI47_260_SE <- sd(SDI260_47_CFL$CFL)/sqrt(2000)
+SDI48_260_SE <- sd(SDI260_48_CFL$CFL)/sqrt(2000)
+SDI49_260_SE <- sd(SDI260_49_CFL$CFL)/sqrt(2000)
+SDI50_260_SE <- sd(SDI260_50_CFL$CFL)/sqrt(2000)
+
+
+
+SDI18_Pri <- mean(Pri_18_CFL_Pri$CFL)
+SDI19_Pri <- mean(Pri_19_CFL_Pri$CFL)
+SDI20_Pri <- mean(Pri_20_CFL_Pri$CFL)
+SDI21_Pri <- mean(Pri_21_CFL_Pri$CFL)
+SDI22_Pri <- mean(Pri_22_CFL_Pri$CFL)
+SDI23_Pri <- mean(Pri_23_CFL_Pri$CFL)
+SDI24_Pri <- mean(Pri_24_CFL_Pri$CFL)
+SDI25_Pri <- mean(Pri_25_CFL_Pri$CFL)
+SDI26_Pri <- mean(Pri_26_CFL_Pri$CFL)
+SDI27_Pri <- mean(Pri_27_CFL_Pri$CFL)
+SDI28_Pri <- mean(Pri_28_CFL_Pri$CFL)
+SDI29_Pri <- mean(Pri_29_CFL_Pri$CFL)
+SDI30_Pri <- mean(Pri_30_CFL_Pri$CFL)
+SDI31_Pri <- mean(Pri_31_CFL_Pri$CFL)
+SDI32_Pri <- mean(Pri_32_CFL_Pri$CFL)
+SDI33_Pri <- mean(Pri_33_CFL_Pri$CFL)
+SDI34_Pri <- mean(Pri_34_CFL_Pri$CFL)
+SDI35_Pri <- mean(Pri_35_CFL_Pri$CFL)
+SDI36_Pri <- mean(Pri_36_CFL_Pri$CFL)
+SDI37_Pri <- mean(Pri_37_CFL_Pri$CFL)
+SDI38_Pri <- mean(Pri_38_CFL_Pri$CFL)
+SDI39_Pri <- mean(Pri_39_CFL_Pri$CFL)
+SDI40_Pri <- mean(Pri_40_CFL_Pri$CFL)
+SDI41_Pri <- mean(Pri_41_CFL_Pri$CFL)
+SDI42_Pri <- mean(Pri_42_CFL_Pri$CFL)
+SDI43_Pri <- mean(Pri_43_CFL_Pri$CFL)
+SDI44_Pri <- mean(Pri_44_CFL_Pri$CFL)
+SDI45_Pri <- mean(Pri_45_CFL_Pri$CFL)
+SDI46_Pri <- mean(Pri_46_CFL_Pri$CFL)
+SDI47_Pri <- mean(Pri_47_CFL_Pri$CFL)
+SDI48_Pri <- mean(Pri_48_CFL_Pri$CFL)
+SDI49_Pri <- mean(Pri_49_CFL_Pri$CFL)
+SDI50_Pri <- mean(Pri_50_CFL_Pri$CFL)
+
+SDI18_Pri_SE <- sd(Pri_18_CFL_Pri$CFL)/sqrt(2000)
+SDI19_Pri_SE <- sd(Pri_19_CFL_Pri$CFL)/sqrt(2000)
+SDI20_Pri_SE <- sd(Pri_20_CFL_Pri$CFL)/sqrt(2000)
+SDI21_Pri_SE <- sd(Pri_21_CFL_Pri$CFL)/sqrt(2000)
+SDI22_Pri_SE <- sd(Pri_22_CFL_Pri$CFL)/sqrt(2000)
+SDI23_Pri_SE <- sd(Pri_23_CFL_Pri$CFL)/sqrt(2000)
+SDI24_Pri_SE <- sd(Pri_24_CFL_Pri$CFL)/sqrt(2000)
+SDI25_Pri_SE <- sd(Pri_25_CFL_Pri$CFL)/sqrt(2000)
+SDI26_Pri_SE <- sd(Pri_26_CFL_Pri$CFL)/sqrt(2000)
+SDI27_Pri_SE <- sd(Pri_27_CFL_Pri$CFL)/sqrt(2000)
+SDI28_Pri_SE <- sd(Pri_28_CFL_Pri$CFL)/sqrt(2000)
+SDI29_Pri_SE <- sd(Pri_29_CFL_Pri$CFL)/sqrt(2000)
+SDI30_Pri_SE <- sd(Pri_30_CFL_Pri$CFL)/sqrt(2000)
+SDI31_Pri_SE <- sd(Pri_31_CFL_Pri$CFL)/sqrt(2000)
+SDI32_Pri_SE <- sd(Pri_32_CFL_Pri$CFL)/sqrt(2000)
+SDI33_Pri_SE <- sd(Pri_33_CFL_Pri$CFL)/sqrt(2000)
+SDI34_Pri_SE <- sd(Pri_34_CFL_Pri$CFL)/sqrt(2000)
+SDI35_Pri_SE <- sd(Pri_35_CFL_Pri$CFL)/sqrt(2000)
+SDI36_Pri_SE <- sd(Pri_36_CFL_Pri$CFL)/sqrt(2000)
+SDI37_Pri_SE <- sd(Pri_37_CFL_Pri$CFL)/sqrt(2000)
+SDI38_Pri_SE <- sd(Pri_38_CFL_Pri$CFL)/sqrt(2000)
+SDI39_Pri_SE <- sd(Pri_39_CFL_Pri$CFL)/sqrt(2000)
+SDI40_Pri_SE <- sd(Pri_40_CFL_Pri$CFL)/sqrt(2000)
+SDI41_Pri_SE <- sd(Pri_41_CFL_Pri$CFL)/sqrt(2000)
+SDI42_Pri_SE <- sd(Pri_42_CFL_Pri$CFL)/sqrt(2000)
+SDI43_Pri_SE <- sd(Pri_43_CFL_Pri$CFL)/sqrt(2000)
+SDI44_Pri_SE <- sd(Pri_44_CFL_Pri$CFL)/sqrt(2000)
+SDI45_Pri_SE <- sd(Pri_45_CFL_Pri$CFL)/sqrt(2000)
+SDI46_Pri_SE <- sd(Pri_46_CFL_Pri$CFL)/sqrt(2000)
+SDI47_Pri_SE <- sd(Pri_47_CFL_Pri$CFL)/sqrt(2000)
+SDI48_Pri_SE <- sd(Pri_48_CFL_Pri$CFL)/sqrt(2000)
+SDI49_Pri_SE <- sd(Pri_49_CFL_Pri$CFL)/sqrt(2000)
+SDI50_Pri_SE <- sd(Pri_50_CFL_Pri$CFL)/sqrt(2000)
+
+
+
+
+
+# NT Vectors
+
+
+MeanNT_Pri <- t(data.frame(SDI18_NT_Pri, SDI19_NT_Pri, SDI20_NT_Pri, SDI21_NT_Pri, SDI22_NT_Pri, SDI23_NT_Pri, SDI24_NT_Pri, SDI25_NT_Pri, SDI26_NT_Pri, SDI27_NT_Pri, SDI28_NT_Pri, SDI29_NT_Pri, SDI30_NT_Pri, SDI31_NT_Pri, SDI32_NT_Pri, SDI33_NT_Pri, SDI34_NT_Pri, SDI35_NT_Pri, SDI36_NT_Pri, SDI37_NT_Pri, SDI38_NT_Pri, SDI39_NT_Pri, SDI40_NT_Pri, SDI41_NT_Pri, SDI42_NT_Pri, SDI43_NT_Pri, SDI44_NT_Pri, SDI45_NT_Pri, SDI46_NT_Pri, SDI47_NT_Pri, SDI48_NT_Pri, SDI49_NT_Pri, SDI50_NT_Pri))
+
+SE_NT_Pri <- t(data.frame(SDI18_NT_Pri_SE, SDI19_NT_Pri_SE, SDI20_NT_Pri_SE, SDI21_NT_Pri_SE, SDI22_NT_Pri_SE, SDI23_NT_Pri_SE, SDI24_NT_Pri_SE, SDI25_NT_Pri_SE, SDI26_NT_Pri_SE, SDI27_NT_Pri_SE, SDI28_NT_Pri_SE, SDI29_NT_Pri_SE, SDI30_NT_Pri_SE, SDI31_NT_Pri_SE, SDI32_NT_Pri_SE, SDI33_NT_Pri_SE, SDI34_NT_Pri_SE, SDI35_NT_Pri_SE, SDI36_NT_Pri_SE, SDI37_NT_Pri_SE, SDI38_NT_Pri_SE, SDI39_NT_Pri_SE, SDI40_NT_Pri_SE, SDI41_NT_Pri_SE, SDI42_NT_Pri_SE, SDI43_NT_Pri_SE, SDI44_NT_Pri_SE, SDI45_NT_Pri_SE, SDI46_NT_Pri_SE, SDI47_NT_Pri_SE, SDI48_NT_Pri_SE, SDI49_NT_Pri_SE, SDI50_NT_Pri_SE))
+
+# SDI 260 Vectors
+
+Mean260 <- t(data.frame(SDI18_260, SDI19_260, SDI20_260, SDI21_260, SDI22_260, SDI23_260, SDI24_260, SDI25_260, SDI26_260, SDI27_260, SDI28_260, SDI29_260, SDI30_260, SDI31_260, SDI32_260, SDI33_260, SDI34_260, SDI35_260, SDI36_260, SDI37_260, SDI38_260, SDI39_260, SDI40_260, SDI41_260, SDI42_260, SDI43_260, SDI44_260, SDI45_260, SDI46_260, SDI47_260, SDI48_260, SDI49_260, SDI50_260))
+
+SE_260 <- t(data.frame(SDI18_260_SE, SDI19_260_SE, SDI20_260_SE, SDI21_260_SE, SDI22_260_SE, SDI23_260_SE, SDI24_260_SE, SDI25_260_SE, SDI26_260_SE, SDI27_260_SE, SDI28_260_SE, SDI29_260_SE, SDI30_260_SE, SDI31_260_SE, SDI32_260_SE, SDI33_260_SE, SDI34_260_SE, SDI35_260_SE, SDI36_260_SE, SDI37_260_SE, SDI38_260_SE, SDI39_260_SE, SDI40_260_SE, SDI41_260_SE, SDI42_260_SE, SDI43_260_SE, SDI44_260_SE, SDI45_260_SE, SDI46_260_SE, SDI47_260_SE, SDI48_260_SE, SDI49_260_SE, SDI50_260_SE))
+
+
+
+# Pri Vectors
+
+Mean_Pri <- t(data.frame(SDI18_Pri, SDI19_Pri, SDI20_Pri, SDI21_Pri, SDI22_Pri, SDI23_Pri, SDI24_Pri, SDI25_Pri, SDI26_Pri, SDI27_Pri, SDI28_Pri, SDI29_Pri, SDI30_Pri, SDI31_Pri, SDI32_Pri, SDI33_Pri, SDI34_Pri, SDI35_Pri, SDI36_Pri, SDI37_Pri, SDI38_Pri, SDI39_Pri, SDI40_Pri, SDI41_Pri, SDI42_Pri, SDI43_Pri, SDI44_Pri, SDI45_Pri, SDI46_Pri, SDI47_Pri, SDI48_Pri, SDI49_Pri, SDI50_Pri))
+
+SE_Pri <- t(data.frame(SDI18_Pri_SE, SDI19_Pri_SE, SDI20_Pri_SE, SDI21_Pri_SE, SDI22_Pri_SE, SDI23_Pri_SE, SDI24_Pri_SE, SDI25_Pri_SE, SDI26_Pri_SE, SDI27_Pri_SE, SDI28_Pri_SE, SDI29_Pri_SE, SDI30_Pri_SE, SDI31_Pri_SE, SDI32_Pri_SE, SDI33_Pri_SE, SDI34_Pri_SE, SDI35_Pri_SE, SDI36_Pri_SE, SDI37_Pri_SE, SDI38_Pri_SE, SDI39_Pri_SE, SDI40_Pri_SE, SDI41_Pri_SE, SDI42_Pri_SE, SDI43_Pri_SE, SDI44_Pri_SE, SDI45_Pri_SE, SDI46_Pri_SE, SDI47_Pri_SE, SDI48_Pri_SE, SDI49_Pri_SE, SDI50_Pri_SE))
+
+
+# Year Vector
+
+Year <- c("2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032", "2033", "2034", "2035", "2036", "2037", "2038", "2039", "2040", "2041", "2042", "2043", "2044", "2045", "2046", "2047", "2048", "2049", "2050")
+
+# Combining Mean, Year, SD, and SE into one data fram
+
+SDI260_Data_Pri <- data.frame(Mean260, Year, SE_260)
+NTData_Pri <- data.frame(MeanNT_Pri, Year, SE_NT_Pri)
+Data_Pri <- data.frame(Mean_Pri, Year, SE_Pri)
+
+# Adding treatment type vector to individual treatments
+
+SDI260_Data_Merge_Pri <- SDI260_Data_Pri %>% 
+  mutate("SDI260")
+
+# Naming columns for GGPlot
+
+colnames(SDI260_Data_Merge_Pri) <- c("CFL", "Year", "SE", "Treatment")
+
+# Stating that treatment is a factor (May or may not matter)
+
+#SDI260_Data_Merge_Quart$Treatment <- as.factor(SDI260_Data_Merge_Quart$Treatment)
+
+Pri_Data_Merge <- Data_Pri %>% 
+  mutate("Prioritized")
+
+colnames(Pri_Data_Merge) <- c("CFL", "Year", "SE", "Treatment")
+
+#SDI300_Data_Merge_Quart$Treatment <- as.factor(SDI300_Data_Merge_Quart$Treatment)
+
+NT_Data_Merge_Pri <- NTData_Pri %>% 
+  mutate("No Treatment")
+
+colnames(NT_Data_Merge_Pri) <- c("CFL", "Year", "SE", "Treatment")
+
+
+#NT_Data_Merge_Quart$Treatment <- as.factor(NT_Data_Merge_Quart$Treatment)
+
+
+# Merging Data frame for each treatment (with its mean, year, SD, an SE) into one dataframe
+
+MergedData_NT_300_260 <- rbind(NT_Data_Merge_Pri, SDI300_Data_Merge, SDI260_Data_Merge)
+
+MergedData_NT_300_260$Treatment <- as.factor(MergedData_NT_300_260$Treatment)
+
+
+MergedData_NT_300_260$Treatment <- factor(MergedData_NT_300_260$Treatment, levels = c("No Treatment", "SDI 260", "SDI 300"))
+
+MergedData_NT_300_260_Time <- ggplot(data = MergedData_NT_300_260, aes(x = Year, y = CFL, color = Treatment)) +
+  geom_point() +
+  xlab("Year") +
+  ylab("Mean Conditional Flame Length (ft)") +
+#  ggtitle("Conditional Flame Length Under Different Treatment Scenarios") +
+  theme_bw() +
+  scale_x_discrete(breaks = seq(2020, 2050, 5)) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  geom_errorbar(aes(ymin=CFL - SE, ymax = CFL + SE), width=1)+
+  scale_y_continuous(breaks = c(2.5,3,3.5,4, 4.5), limits=c(2.5, 4.5)) +
+  scale_colour_manual(name="Treatment", values = c("No Treatment" = "firebrick", "SDI 300" = "cyan3", "SDI 260" = "purple"))+
+    theme(axis.title.x = element_text(size=20))
+
+MergedData_NT_300_260_Time
+
+
+
+
+MergedData_NT_Pri <- rbind(NT_Data_Merge_Pri, Pri_Data_Merge)
+
+MergedData_NT_Pri_Time <- ggplot(data = MergedData_NT_Pri, aes(x = Year, y = CFL, colour = Treatment)) +
+  geom_point() +
+  xlab("Year") +
+  ylab("Mean Conditional Flame Length (ft)") +
+ # ggtitle("Conditional Flame Length Under Different Treatment Scenarios") +
+  theme_bw() +
+  scale_x_discrete(breaks = seq(2020, 2050, 5)) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  geom_errorbar(aes(ymin=CFL - SE, ymax = CFL + SE), width=1) +
+  scale_colour_manual(name="Treatment", values = c("Prioritized" = "blue", "No Treatment" = "firebrick")) +
+  scale_y_continuous(breaks = c(2.5, 3,3.5,4, 4.5), limits=c(2.5, 4.5))  +
+  theme(axis.title.x = element_text(size=20))
+
+
+# Modify colors for each to match other graphs
+
+
+MergedData_NT_Pri_Time
+
+
+ # geom_errorbar(aes(ymin = CFL - SD, 
+  #                  ymax = CFL + SD), alpha=.3)
+
+
+# scale_colour_manual(name="Treatment", values = c("Prioritized Treatment" = "blue", "No Treatment" = "firebrick", "SDI 300" = "darkgreen", "SDI 260" = "purple"))
+
+
+
+```
+
+So get rid of Prioritized
+and then create a new with Prioritized vs NT
+# require (gridExtra)
+  then use grid.arrange(plot1, plot 2, ncol=2)
+  
+  
+```{r Multigraph Attempt, fig.width=6}
+
+library(gridExtra)
+library(grid)
+library(ggplot2)
+library(lattice)
+
+
+
+grid.arrange(MergedData_NT_300_260_Time, MergedData_NT_Pri_Time, ncol = 2, top = textGrob("Mean Conditional Flame Length Under Different Treatment Scenarios", gp = gpar(fontsize = 25)), padding = unit(2, "line"))
+
+```
+  
+
+
+Next part
+
+Use the subset_2000 that has SDI treatment; and then use mutate function to do this in one column
+-Make a column of year ((2020-2019) + (2030-2029) + (2040-2049))/3
+
+Subset_whateverI'm calling it <- subset_2000 %>% 
+  mutate("Year 2-1" = .........)
+
+-do for each: ((2021-2019) + (2031-2029) + (2041-2039))/3
+
+etc...
+
+Then do a one-sample t-test
+
+
+Graph:
+-mean on y axis for each year
+
+
+
+```{r Interyear comparison}
+
+
+Interyear_Diffs <- Subset_2000_Pri %>% 
+  mutate(Yr0 = ((SDI260_FL18-SDI260_FL18) + (SDI260_FL28-SDI260_FL28) + (SDI260_FL38-SDI260_FL38))/3) %>% 
+  mutate(Yr1 = ((SDI260_FL18-SDI260_FL19) + (SDI260_FL28-SDI260_FL29) + (SDI260_FL38-SDI260_FL39))/3) %>%
+  mutate(Yr2 = ((SDI260_FL18-SDI260_FL20) + (SDI260_FL28-SDI260_FL30) + (SDI260_FL38-SDI260_FL40))/3) %>%
+  mutate(Yr3 = ((SDI260_FL18-SDI260_FL21) + (SDI260_FL28-SDI260_FL31) + (SDI260_FL38-SDI260_FL41))/3) %>%
+  mutate(Yr4 = ((SDI260_FL18-SDI260_FL22) + (SDI260_FL28-SDI260_FL32) + (SDI260_FL38-SDI260_FL42))/3) %>%
+  mutate(Yr5 = ((SDI260_FL18-SDI260_FL23) + (SDI260_FL28-SDI260_FL33) + (SDI260_FL38-SDI260_FL43))/3) %>%
+  mutate(Yr6 = ((SDI260_FL18-SDI260_FL24) + (SDI260_FL28-SDI260_FL34) + (SDI260_FL38-SDI260_FL44))/3) %>%
+  mutate(Yr7 = ((SDI260_FL18-SDI260_FL25) + (SDI260_FL28-SDI260_FL35) + (SDI260_FL38-SDI260_FL45))/3) %>%
+  mutate(Yr8 = ((SDI260_FL18-SDI260_FL26) + (SDI260_FL28-SDI260_FL36) + (SDI260_FL38-SDI260_FL46))/3) %>% 
+  mutate(Yr9 = ((SDI260_FL18-SDI260_FL27) + (SDI260_FL28-SDI260_FL37) + (SDI260_FL38-SDI260_FL47))/3) 
+
+#Interyear_Diffs <- Subset_2000 %>% 
+ # mutate(Yr0 = ((NT_FL18-SDI260_FL18) + (NT_FL28-SDI260_FL28) + (NT_FL38-SDI260_FL38))/3) %>% 
+  #mutate(Yr1 = ((NT_FL19-SDI260_FL19) + (NT_FL29-SDI260_FL29) + (NT_FL39-SDI260_FL39))/3) %>%
+#  mutate(Yr2 = ((NT_FL20-SDI260_FL20) + (NT_FL30-SDI260_FL30) + (NT_FL40-SDI260_FL40))/3) %>%
+#  mutate(Yr3 = ((NT_FL21-SDI260_FL21) + (NT_FL31-SDI260_FL31) + (NT_FL41-SDI260_FL41))/3) %>%
+#  mutate(Yr4 = ((NT_FL22-SDI260_FL22) + (NT_FL32-SDI260_FL32) + (NT_FL42-SDI260_FL42))/3) %>%
+#  mutate(Yr5 = ((NT_FL23-SDI260_FL23) + (NT_FL33-SDI260_FL33) + (NT_FL43-SDI260_FL43))/3) %>%
+#  mutate(Yr6 = ((NT_FL24-SDI260_FL24) + (NT_FL34-SDI260_FL34) + (NT_FL44-SDI260_FL44))/3) %>%
+#  mutate(Yr7 = ((NT_FL25-SDI260_FL25) + (NT_FL35-SDI260_FL35) + (NT_FL45-SDI260_FL45))/3) %>%
+#  mutate(Yr8 = ((NT_FL26-SDI260_FL26) + (NT_FL36-SDI260_FL36) + (NT_FL46-SDI260_FL46))/3) %>% 
+#  mutate(Yr9 = ((NT_FL27-SDI260_FL27) + (NT_FL37-SDI260_FL37) + (NT_FL47-SDI260_FL47))/3) 
+  
+
+ 
+
+# 
+  
+Mean_Yr0 <- mean(Interyear_Diffs$Yr0)
+Mean_Yr1 <- mean(Interyear_Diffs$Yr1)
+Mean_Yr2 <- mean(Interyear_Diffs$Yr2)
+Mean_Yr3 <- mean(Interyear_Diffs$Yr3)
+Mean_Yr4 <- mean(Interyear_Diffs$Yr4)
+Mean_Yr5 <- mean(Interyear_Diffs$Yr5)
+Mean_Yr6 <- mean(Interyear_Diffs$Yr6)
+Mean_Yr7 <- mean(Interyear_Diffs$Yr7)
+Mean_Yr8 <- mean(Interyear_Diffs$Yr8)
+Mean_Yr9 <- mean(Interyear_Diffs$Yr9)
+
+t.test(Interyear_Diffs$Yr0, mu = 0, alternative = "less")
+t.test(Interyear_Diffs$Yr1, Interyear_Diffs$Yr2, alternative = "greater")
+t.test(Interyear_Diffs$Yr1, Interyear_Diffs$Yr3, alternative = "greater")
+t.test(Interyear_Diffs$Yr1, Interyear_Diffs$Yr4, alternative = "greater")
+t.test(Interyear_Diffs$Yr1, Interyear_Diffs$Yr5, alternative = "greater")
+t.test(Interyear_Diffs$Yr1, Interyear_Diffs$Yr6, alternative = "greater")
+t.test(Interyear_Diffs$Yr1, Interyear_Diffs$Yr7, alternative = "greater")
+t.test(Interyear_Diffs$Yr1, Interyear_Diffs$Yr8, alternative = "greater")
+t.test(Interyear_Diffs$Yr1, Interyear_Diffs$Yr9, alternative = "greater")
+t.test(Interyear_Diffs$Yr1, Interyear_Diffs$Yr10, alternative = "greater")
+
+Mean_Interyear <- t(data.frame(Mean_Yr0,
+                               Mean_Yr1, 
+                               Mean_Yr2,
+                               Mean_Yr3,
+                               Mean_Yr4,
+                               Mean_Yr5,
+                               Mean_Yr6,
+                               Mean_Yr7,
+                               Mean_Yr8,
+                               Mean_Yr9))
+
+
+SD_Yr0 <- sd(Interyear_Diffs$Yr0)/sqrt(2000)
+SD_Yr1 <- sd(Interyear_Diffs$Yr1)/sqrt(2000)
+SD_Yr2 <- sd(Interyear_Diffs$Yr2)/sqrt(2000)
+SD_Yr3 <- sd(Interyear_Diffs$Yr3)/sqrt(2000)
+SD_Yr4 <- sd(Interyear_Diffs$Yr4)/sqrt(2000)
+SD_Yr5 <- sd(Interyear_Diffs$Yr5)/sqrt(2000)
+SD_Yr6 <- sd(Interyear_Diffs$Yr6)/sqrt(2000)
+SD_Yr7 <- sd(Interyear_Diffs$Yr7)/sqrt(2000)
+SD_Yr8 <- sd(Interyear_Diffs$Yr8)/sqrt(2000)
+SD_Yr9 <- sd(Interyear_Diffs$Yr9)/sqrt(2000)
+
+SD_Interyear <- t(data.frame(SD_Yr0,
+                             SD_Yr1, 
+                             SD_Yr2,
+                             SD_Yr3,
+                             SD_Yr4,
+                             SD_Yr5,
+                             SD_Yr6,
+                             SD_Yr7,
+                             SD_Yr8,
+                             SD_Yr9))
+
+Year_Interyear <- c("0", "1","2","3","4","5","6","7","8", "9")
+
+Interyear_DF <- data.frame(Mean_Interyear, Year_Interyear, SD_Interyear)
+
+colnames(Interyear_DF) <- c("CFL_Reduction", "Year", "SD")
+
+All_Treatment_Years <- rbind(SDI_260_2018,SDI_260_2028,SDI_260_2038, SDI_260_2048)
+
+
+ggplot(data = Interyear_DF, aes(x = Year, y = CFL_Reduction)) +
+  geom_point(color = "firebrick") +
+  xlab("Year") +
+  ylab("Mean CFL Reduction (ft)") +
+  ggtitle("Conditional Flame Length Reductions Across the Treatment Cycle") +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  geom_errorbar(aes(ymin=CFL_Reduction - SD, ymax = CFL_Reduction + SD), width=0.5, color = "firebrick") +
+  geom_hline(aes(yintercept=((mean(SDI_260_2018$CFL)-mean(NT_2018$CFL))), col = "Mean CFL Reduction\nfor No Treatment in 2018"),linetype = "dashed") +
+  theme(legend.title = element_blank())
+
+# shifted line to be average of all pile burn years - average of NT 2018 year, and added 2049, 2050 data
+  # unless Tess says something about how we should look at average of all pile burn year; change back to mean of SDI260_2018$CFL - NT_2018$CFL,
+    # get rid of 2048, 2049, 2050 data, say in figure caption that years 1-9 aren't significantly less than year 1 (the year after pile burn) until year 8
+
+
+
+
+Interyear_Diffs_NT18 <- Subset_2000 %>% 
+  mutate(Yr0 = ((NT_FL18-SDI260_FL18) + (NT_FL18-SDI260_FL28) + (NT_FL18-SDI260_FL38))/3) %>% 
+  mutate(Yr1 = ((NT_FL18-SDI260_FL19) + (NT_FL18-SDI260_FL29) + (NT_FL18-SDI260_FL39))/3) %>%
+  mutate(Yr2 = ((NT_FL18-SDI260_FL20) + (NT_FL18-SDI260_FL30) + (NT_FL18-SDI260_FL40))/3) %>%
+  mutate(Yr3 = ((NT_FL18-SDI260_FL21) + (NT_FL18-SDI260_FL31) + (NT_FL18-SDI260_FL41))/3) %>%
+  mutate(Yr4 = ((NT_FL18-SDI260_FL22) + (NT_FL18-SDI260_FL32) + (NT_FL18-SDI260_FL42))/3) %>%
+  mutate(Yr5 = ((NT_FL18-SDI260_FL23) + (NT_FL18-SDI260_FL33) + (NT_FL18-SDI260_FL43))/3) %>%
+  mutate(Yr6 = ((NT_FL18-SDI260_FL24) + (NT_FL18-SDI260_FL34) + (NT_FL18-SDI260_FL44))/3) %>%
+  mutate(Yr7 = ((NT_FL18-SDI260_FL25) + (NT_FL18-SDI260_FL35) + (NT_FL18-SDI260_FL45))/3) %>%
+  mutate(Yr8 = ((NT_FL18-SDI260_FL26) + (NT_FL18-SDI260_FL36) + (NT_FL18-SDI260_FL46))/3) %>% 
+  mutate(Yr9 = ((NT_FL18-SDI260_FL27) + (NT_FL18-SDI260_FL37) + (NT_FL18-SDI260_FL47))/3) 
+  
+
+ 
+
+# 
+  
+Mean_Yr0 <- mean(Interyear_Diffs_NT18$Yr0)
+Mean_Yr1 <- mean(Interyear_Diffs_NT18$Yr1)
+Mean_Yr2 <- mean(Interyear_Diffs_NT18$Yr2)
+Mean_Yr3 <- mean(Interyear_Diffs_NT18$Yr3)
+Mean_Yr4 <- mean(Interyear_Diffs_NT18$Yr4)
+Mean_Yr5 <- mean(Interyear_Diffs_NT18$Yr5)
+Mean_Yr6 <- mean(Interyear_Diffs_NT18$Yr6)
+Mean_Yr7 <- mean(Interyear_Diffs_NT18$Yr7)
+Mean_Yr8 <- mean(Interyear_Diffs_NT18$Yr8)
+Mean_Yr9 <- mean(Interyear_Diffs_NT18$Yr9)
+
+t.test(Interyear_Diffs_NT18$Yr0, mu = 0, alternative = "less")
+t.test(Interyear_Diffs_NT18$Yr1, Interyear_Diffs_NT18$Yr2, alternative = "greater")
+t.test(Interyear_Diffs_NT18$Yr1, Interyear_Diffs_NT18$Yr3, alternative = "greater")
+t.test(Interyear_Diffs_NT18$Yr1, Interyear_Diffs_NT18$Yr4, alternative = "greater")
+t.test(Interyear_Diffs_NT18$Yr1, Interyear_Diffs_NT18$Yr4, alternative = "greater")
+t.test(Interyear_Diffs_NT18$Yr1, Interyear_Diffs_NT18$Yr5, alternative = "greater")
+t.test(Interyear_Diffs_NT18$Yr1, Interyear_Diffs_NT18$Yr6, alternative = "greater")
+t.test(Interyear_Diffs_NT18$Yr1, Interyear_Diffs_NT18$Yr7, alternative = "greater")
+t.test(Interyear_Diffs_NT18$Yr1, Interyear_Diffs_NT18$Yr8, alternative = "greater")
+t.test(Interyear_Diffs_NT18$Yr1, Interyear_Diffs_NT18$Yr9, alternative = "greater")
+
+Mean_Interyear <- t(data.frame(Mean_Yr0,
+                               Mean_Yr1, 
+                               Mean_Yr2,
+                               Mean_Yr3,
+                               Mean_Yr4,
+                               Mean_Yr5,
+                               Mean_Yr6,
+                               Mean_Yr7,
+                               Mean_Yr8,
+                               Mean_Yr9))
+
+
+SD_Yr0 <- sd(Interyear_Diffs_NT18$Yr0)/sqrt(2000)
+SD_Yr1 <- sd(Interyear_Diffs_NT18$Yr1)/sqrt(2000)
+SD_Yr2 <- sd(Interyear_Diffs_NT18$Yr2)/sqrt(2000)
+SD_Yr3 <- sd(Interyear_Diffs_NT18$Yr3)/sqrt(2000)
+SD_Yr4 <- sd(Interyear_Diffs_NT18$Yr4)/sqrt(2000)
+SD_Yr5 <- sd(Interyear_Diffs_NT18$Yr5)/sqrt(2000)
+SD_Yr6 <- sd(Interyear_Diffs_NT18$Yr6)/sqrt(2000)
+SD_Yr7 <- sd(Interyear_Diffs_NT18$Yr7)/sqrt(2000)
+SD_Yr8 <- sd(Interyear_Diffs_NT18$Yr8)/sqrt(2000)
+SD_Yr9 <- sd(Interyear_Diffs_NT18$Yr9)/sqrt(2000)
+
+SD_Interyear <- t(data.frame(SD_Yr0,
+                             SD_Yr1, 
+                             SD_Yr2,
+                             SD_Yr3,
+                             SD_Yr4,
+                             SD_Yr5,
+                             SD_Yr6,
+                             SD_Yr7,
+                             SD_Yr8,
+                             SD_Yr9))
+
+Year_Interyear <- c("0", "1","2","3","4","5","6","7","8", "9")
+
+Interyear_DF <- data.frame(Mean_Interyear, Year_Interyear, SD_Interyear)
+
+colnames(Interyear_DF) <- c("CFL_Reduction", "Year", "SD")
+
+
+
+
+
+
+```
+# Make look pretty for paper 
+  # Change x label; add year variable
+
+
+
+
+Sensitivity Analysis
+
+-import 2000 subset for each treatment for extreme and moderate wind
+
+
+```{r Data Import: Extreme and Moderate Wind}
+
+ExtremeWind_Subset <- read_csv("~/Documents/Bren School of Environmental Science and Management/Winter2018/GP Documents/ExtremeWind_Subset.csv")
+
+ModerateWind_Subset <- read_csv("~/Documents/Bren School of Environmental Science and Management/Winter2018/GP Documents/ModerateWind_Subset.csv")
+
+
+
+```
+
+
+Then create Average dataframes for each (extreme wind, moderate wind; fuel moistures) for the density plots
+
+
+
+
+
+
+```{r Sensitivity (Extreme Wind) Density Plot}
+
+
+ExtremeWind_NT_Subset_Average <- ExtremeWind_Subset %>% 
+  select(Average_nt) %>% 
+  mutate("No Treatment") %>% 
+  mutate("Extreme Wind")
+
+colnames(ExtremeWind_NT_Subset_Average) <- c("CFL", "Treatment", "Wind")
+
+
+ExtremeWind_SDI260_Subset_Average <- ExtremeWind_Subset %>% 
+  select(Average_SDI260) %>% 
+  mutate("SDI 260") %>% 
+  mutate("Extreme Wind")
+
+colnames(ExtremeWind_SDI260_Subset_Average) <- c("CFL", "Treatment", "Wind")
+
+ExtremeWind_SDI300_Subset_Average <- ExtremeWind_Subset %>% 
+  select(Average_SDI300) %>% 
+  mutate("SDI 300") %>% 
+  mutate("Extreme Wind")
+
+colnames(ExtremeWind_SDI300_Subset_Average) <- c("CFL", "Treatment", "Wind")
+
+ExtremeWind_Data <- rbind(ExtremeWind_NT_Subset_Average, ExtremeWind_SDI260_Subset_Average, ExtremeWind_SDI300_Subset_Average)
+
+ExtremeWind_Hist <- ggplot(ExtremeWind_Data, aes(x = CFL, fill = Treatment)) +
+  geom_histogram(binwidth = 0.5, alpha = 1, position = "dodge", color = "black") +
+  theme_bw() +
+  labs(title = "Mean Flame Length", x = "Conditional Flame Length", y = "Count") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  geom_density()
+
+# It is plotting density, but it's doing it on the same axis as count, resulting in a line on the x axis
+
+ExtremeWind_Hist
+
+
+ExtremeWind_Dens <- ggplot(ExtremeWind_Data, aes(x = CFL, col = Treatment)) +
+  geom_density(alpha =0.7, size = 0.5) +
+  theme_bw() +  
+  labs(title = "Extreme Wind Scenarios", x = "Conditional Flame Length") +
+  scale_fill_manual(name="Treatment", values = c("No Treatment" = "firebrick", "SDI 300" = "cyan3", "SDI 260" = "purple")) + 
+  theme(plot.title = element_text(hjust = 0.5)) 
+
+
+ExtremeWind_Dens
+
+NT_ExtremeWind_Dens <- ggplot(ExtremeWind_NT_Subset_Average, aes(x = CFL)) +
+  geom_density() +
+  theme_bw() +  
+  labs(title = "Extreme Wind Scenarios", x = "Conditional Flame Length") +
+  scale_fill_manual(name="Treatment", values = c("No Treatment" = "Diagonal Pattern")) + 
+  theme(plot.title = element_text(hjust = 0.5)) 
+
+NT_ExtremeWind_Dens
+
+
+
+
+# SDI 300 and SDI 260 are very similar, SDI 300 has slightly lower flame lengths
+
+```
+
+For facet wrap: take the merged data frame that has the three treatments under the normal wind scenario and create a new column called "wind conditions" or something and mutate with normal wind
+Do the same for extreme wind and moderate wind
+
+
+
+
+```{r Sensitivity (Moderate Wind) Density Plot}
+
+
+ModerateWind_NT_Subset_Average <- ModerateWind_Subset %>% 
+  select(Average_nt) %>% 
+  mutate("No Treatment") %>% 
+  mutate("Moderate Wind")
+
+colnames(ModerateWind_NT_Subset_Average) <- c("CFL", "Treatment", "Wind")
+
+
+ModerateWind_SDI260_Subset_Average <- ModerateWind_Subset %>% 
+  select(Average_SDI260) %>% 
+  mutate("SDI 260") %>% 
+  mutate("Moderate Wind")
+
+colnames(ModerateWind_SDI260_Subset_Average) <- c("CFL", "Treatment", "Wind")
+
+ModerateWind_SDI300_Subset_Average <- ModerateWind_Subset %>% 
+  select(Average_SDI300) %>% 
+  mutate("SDI 300") %>% 
+  mutate("Moderate Wind")
+
+colnames(ModerateWind_SDI300_Subset_Average) <- c("CFL", "Treatment", "Wind")
+
+ModerateWind_Data <- rbind(ModerateWind_NT_Subset_Average, ModerateWind_SDI260_Subset_Average, ModerateWind_SDI300_Subset_Average)
+
+ModerateWind_Hist <- ggplot(ModerateWind_Data, aes(x = CFL, fill = Treatment)) +
+  geom_histogram(binwidth = 0.5, alpha = 1, position = "dodge", color = "black") +
+  theme_bw() +
+  labs(title = "Mean Flame Length", x = "Conditional Flame Length", y = "Count") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  geom_density()
+
+# It is plotting density, but it's doing it on the same axis as count, resulting in a line on the x axis
+
+ModerateWind_Hist
+
+
+ModerateWind_Dens <- ggplot(ModerateWind_Data, aes(x = CFL, fill = Treatment)) +
+  geom_density(alpha =0.7, size = 0.5) +
+  theme_bw() +
+  labs(title = "Moderate Wind Scenario", x = "Conditional Flame Length") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_fill_manual(name="Treatment", values = c("No Treatment" = "firebrick", "SDI 300" = "cyan3", "SDI 260" = "purple"))  # alpha = 0.7, size = 0.5
+
+
+ModerateWind_Dens
+
+
+
+```
+
+
+```{r All Treatments Dens Plot, fig.height=3, fig.width=14.082}
+
+All_Treatments <- rbind(NT_Average, SDI300_Average, SDI260_Average, Pri_Subset_Average)
+
+
+Prioritized_NT <- rbind(NT_Average, Pri_Subset_Average)
+
+
+
+SDI300_Pri <- rbind(Pri_Subset_Average, SDI300_Average)
+
+
+
+# It is plotting density, but it's doing it on the same axis as count, resulting in a line on the x axis
+
+
+
+All_Treatments$Treatment <- as.factor(All_Treatments$Treatment)
+#contrasts(All_Treatments$Treatment)
+
+#relevel(All_Treatments$Treatment, "No Treatment")
+
+SDI260_Pri$Treatment <- factor(SDI260_Pri$Treatment, levels = c("SDI 260", "Prioritized Treatment"))
+# RE-ADDED SDI 260 TO ALL TREATMENTS FOR REPORT
+
+mean(NT_Average$CFL)
+mean(Pri_Subset_Average$CFL)
+mean(SDI260_Average$CFL)
+mean(SDI300_Average$CFL)
+
+
+
+# Create variable first
+All_Treatments$Treatment <- as.factor(All_Treatments$Treatment)
+#Prioritized_SDI300_NT$Treatment <- as.factor(Prioritized_SDI300_NT$Treatment)
+#contrasts(All_Treatments$Treatment)
+
+#relevel(All_Treatments$Treatment, "No Treatment")
+
+All_Treatments$Treatment <- factor(All_Treatments$Treatment, levels = c("No Treatment", "SDI 260", "SDI 300", "Prioritized Treatment"))
+
+Prioritized_NT$Treatment <- factor(Prioritized_NT$Treatment, levels = c("No Treatment", "Prioritized Treatment"))
+
+
+
+
+Prioritized_NT_Dens_Title <- ggplot(Prioritized_NT, aes(x = CFL, fill = Treatment, linetype = Treatment)) +
+  geom_density(alpha = 0.5, size = 1) +
+  ggtitle("Fire Severity Under Treatment and No Treatment Scenarios") +
+  ylab("Frequency") +
+  theme_bw(base_size = 30) +
+  theme(legend.text=element_text(size=30)) +
+  theme(legend.key.size = unit(3,"line")) +
+  scale_fill_manual(name="Treatment", values = c("Prioritized Treatment" = "blue", "No Treatment" = "firebrick4", "SDI 300" = "cyan3")) +
+  scale_linetype_manual(name="Treatment", values = c("Prioritized Treatment" = "solid", "No Treatment" = "dotted", "SDI 300" = "solid", "SDI 260" = "solid")) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  scale_x_continuous(name = "Conditional Flame Length (ft)", breaks = c(0, 3, 6, 9, 12), limits=c(0, 12)) +  
+  scale_y_continuous(breaks = c(0, 0.4, 0.8, 1.2), limits=c(0, 1.3)) +
+  theme(legend.position = c(0.8, 0.5)) +
+  theme(legend.title=element_blank()) +
+  theme(legend.background = element_rect(
+                                  size=0.5, linetype="solid", 
+                                  colour ="black")) 
+
+# changed size to 0.5, linetype for no treatment to dashed
+
+
+Prioritized_NT_Dens_Title
+
+
+
+
+
+
+SDI_260_VS_300_Dens_Title <- ggplot(SDI_260_VS_300, aes(x = CFL, fill = Treatment), colour = "black") +
+  geom_density(alpha = 0.5, size = 1) +
+  ggtitle("Fire Severity Under Full Treatment Scenarios") +
+  ylab("Frequency") +
+  theme_bw(base_size = 30) +
+  theme(legend.text=element_text(size=30)) +
+  theme(legend.key.size = unit(3,"line")) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  scale_fill_manual(name="Treatment", values = c("SDI 300" = "cyan3", "SDI 260" = "purple"), labels=c("High Intensity Treatment", "Low Intensity Treatment")) +
+  scale_x_continuous(name = "Conditional Flame Length (ft)", breaks = c(0, 3, 6, 9, 12), limits=c(0, 12))  +
+  scale_y_continuous(breaks = c(0, 0.4, 0.8, 1.2), limits=c(0, 1.3)) +
+  theme(legend.position = c(0.8, 0.5)) +
+  theme(legend.title=element_blank()) +
+  theme(legend.background = element_rect(
+                                  size=0.5, linetype="solid", 
+                                  colour ="black"))
+
+SDI_260_VS_300_Dens_Title
+
+
+#All_Treatments$Treatment <- factor(All_Treatments$Treatment, levels = All_Treatments$Treatment[order(c("SDI 300", "SDI 260", "Prioritized Treatment", "No Treatment"))])
+
+#All_Treatments$Treatment <- factor(All_Treatments$Treatment, levels = c("SDI 300", "SDI 260", "Prioritized Treatment", "No Treatment"))
+
+```
+
+
+-size of full graph
+- height: 5.21
+- width: 12.23
+    - ratio:2.347
+
+
+```{r Sensitivity Facet Wrap, fig.height=3.75, fig.width=8.80125}
+
+mean(ExtremeWind_NT_Subset_Average$CFL)
+mean(ExtremeWind_SDI300_Subset_Average$CFL)
+
+
+Wind_Data <- rbind(ExtremeWind_NT_Subset_Average, ExtremeWind_SDI260_Subset_Average, ExtremeWind_SDI300_Subset_Average, ModerateWind_NT_Subset_Average, ModerateWind_SDI260_Subset_Average, ModerateWind_SDI300_Subset_Average, NT_Average_ExpectedWind, SDI300_Average_ExpectedWind, SDI260_Average_ExpectedWind)
+
+t.test(ModerateWind_NT_Subset_Average$CFL, NT_Average_ExpectedWind$CFL)
+t.test(ExtremeWind_NT_Subset_Average$CFL, NT_Average_ExpectedWind$CFL, alternative = "greater")
+  
+
+
+Wind_Dens <- ggplot(Wind_Data, aes(x = CFL, fill = Treatment, linetype = Treatment)) +
+  geom_density(alpha =0.7, size = 0.5) +
+  facet_wrap(~Wind, ncol = 1) +
+  theme_bw(base_size = 20) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  labs(title = "Impact of Wind Assumptions on Fire Severity", x = "Conditional Flame Length", y = "Frequency") +
+  scale_linetype_manual(name="Treatment", values = c("Prioritized Treatment" = "solid", "No Treatment" = "dotted", "SDI 300" = "solid", "SDI 260" = "solid"), labels = c("No Treatment", "High Intensity Treatment", "Low Intensity Treatment")) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_fill_manual(name="Treatment", values = c("No Treatment" = "firebrick", "SDI 300" = "cyan3", "SDI 260" = "purple"), labels = c("No Treatment", "High Intensity Treatment", "Low Intensity Treatment")) +
+  scale_x_continuous(name = "Conditional Flame Length (ft)", breaks = c(0, 3, 6, 9, 12), limits=c(0, 12)) +
+  theme(legend.position = c(0.8, 0.5)) +
+  theme(legend.title=element_blank()) +
+  theme(legend.background = element_rect(
+                                  size=0.5, linetype="solid", 
+                                  colour ="black")) 
+
+
+
+# MOVED LEGEND BACK FOR REPORT
+
+# keep changing SDI 300 color until it matches default
+  
+palette()
+
+Wind_Dens
+
+# Change thickness of line
+
+
+mean(ModerateWind_NT_Subset_Average$CFL)
+sd(ModerateWind_NT_Subset_Average$CFL)
+mean(SDI300_Average_ExpectedWind$CFL)
+mean(ModerateWind_SDI300_Subset_Average$CFL)
+
+```
+
+# Explain what SDI is beforehand in defense
+
+Questions for figures we produce:
+
+Which figures do we want to produce?
+
+Suggestions for how to change figures
+-titles, treatment names (SDI vs something else)
+-density?
+-histograms vs density plots
+-treatment colors
+
+
+
+# What to present: Dens of all 4 treatments, Dens of SDI 300 and 260, Dens of Prioritized vs NT, Dens of SDI 300, 260 and NT: Report: gridded 4 together
+
+
+
+4 plots to plot with the plot:
+All_Treatments_Dens
+Pri_Dens?
+SDI_260_VS_300_Dens
+SDI_260_VS_300_NT_Dens
+
+
+
+```{r all density plot codes}
+
+
+All_Treatments_Dens <- ggplot(All_Treatments, aes(x = CFL, fill = Treatment, linetype = Treatment)) +
+  geom_density(size = 0.5, alpha = 0.5) +
+  scale_fill_manual(name="Treatment", values = c("Prioritized Treatment" = "blue", "No Treatment" = "firebrick", "SDI 300" = "cyan3", "SDI 260" = "purple")) +
+  theme_bw(base_size = 20) +
+  scale_linetype_manual(name="Treatment", values = c("Prioritized Treatment" = "solid", "No Treatment" = "dotted", "SDI 300" = "solid", "SDI 260" = "solid")) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_x_continuous(name = "Conditional Flame Length (ft)", breaks = c(0, 3, 6, 9, 12), limits=c(0, 12)) +  
+  scale_y_continuous(breaks = c(0, 0.4, 0.8, 1.2), limits=c(0, 1.3)) +
+  theme(legend.position = c(0.8, 0.7)) +
+  theme(legend.background = element_rect(
+                                  size=0.5, linetype="solid", 
+                                  colour ="black"),
+        axis.title.x = element_text(size = 20),
+        axis.title.y = element_text(size = 20))
+
+All_Treatments_Dens
+
+
+Pri_Dens <- ggplot(SDI260_Pri, aes(x = CFL, fill = Treatment, linetype = Treatment)) +
+  geom_density(size = 0.5, alpha = 0.5) +
+  theme_bw(base_size = 20) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  scale_fill_manual(name="Treatment", values = c("Prioritized Treatment" = "blue", "No Treatment" = "firebrick", "SDI 300" = "cyan3", "SDI 260" = "purple")) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_linetype_manual(name="Treatment", values = c("Prioritized Treatment" = "solid", "No Treatment" = "dotted", "SDI 300" = "solid", "SDI 260" = "solid")) +
+  scale_x_continuous(name = "Conditional Flame Length (ft)", breaks = c(0, 3, 6, 9, 12), limits=c(0, 12)) +
+  scale_y_continuous(breaks = c(0, 0.4, 0.8, 1.2), limits=c(0, 1.3)) +
+  theme(legend.position = c(0.8, 0.7)) +
+  theme(legend.background = element_rect(
+                                  size=0.5, linetype="solid", 
+                                  colour ="black"),
+        axis.title.x = element_text(size = 20),
+        axis.title.y = element_text(size = 20)) 
+
+
+Pri_Dens
+
+SDI_260_VS_300_NT_Dens <- ggplot(SDI_260_VS_300_NT, aes(x = CFL, fill = Treatment, linetype = Treatment), colour = "black") +
+  geom_density(size = 0.5, alpha = 0.5) +
+  theme_bw(base_size=20) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_linetype_manual(name="Treatment", values = c("Prioritized Treatment" = "solid", "No Treatment" = "dotted", "SDI 300" = "solid", "SDI 260" = "solid")) +
+  scale_fill_manual(name="Treatment", values = c("SDI 300" = "cyan3", "SDI 260" = "purple", "No Treatment" = "firebrick")) +
+  scale_x_continuous(name = "Conditional Flame Length (ft)", breaks = c(0, 3, 6, 9, 12), limits=c(0, 12)) +
+  scale_y_continuous(breaks = c(0, 0.4, 0.8, 1.2), limits=c(0, 1.3)) +
+  theme(legend.position = c(0.8, 0.7)) +
+  theme(legend.background = element_rect(
+                                  size=0.5, linetype="solid", 
+                                  colour ="black"),
+        axis.title.x = element_text(size = 20),
+        axis.title.y = element_text(size = 20))
+
+SDI_260_VS_300_NT_Dens
+
+
+
+SDI_260_VS_300 <- rbind(SDI300_Average, SDI260_Average)
+
+
+
+SDI_260_VS_300_Dens <- ggplot(SDI_260_VS_300, aes(x = CFL, fill = Treatment, linetype = Treatment)) +
+  geom_density(size = 0.5, alpha = 0.5) +
+  theme_bw(base_size = 20) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_linetype_manual(name="Treatment", values = c("Prioritized Treatment" = "solid", "No Treatment" = "dotted", "SDI 300" = "solid", "SDI 260" = "solid")) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  scale_fill_manual(name="Treatment", values = c("SDI 300" = "cyan3", "SDI 260" = "purple")) +
+  scale_colour_manual(name="Treatment", values = c("SDI 300" = "cyan3", "SDI 260" = "purple")) +
+  scale_x_continuous(name = "Conditional Flame Length (ft)", breaks = c(0, 3, 6, 9, 12), limits=c(0, 12))  +
+  scale_y_continuous(breaks = c(0, 0.4, 0.8, 1.2), limits=c(0, 1.3)) +
+  theme(legend.position = c(0.8, 0.7)) +
+  theme(legend.background = element_rect(
+                                  size=0.5, linetype="solid", 
+                                  colour ="black"),
+        axis.title.x = element_text(size = 20),
+        axis.title.y = element_text(size = 20))
+
+SDI_260_VS_300_Dens
+
+```
+
+
+
+
+```{r Grid Arrange of all density plots, fig.width=8}
+
+grid.arrange(All_Treatments_Dens, SDI_260_VS_300_Dens, Pri_Dens, SDI_260_VS_300_NT_Dens, ncol = 2, top = textGrob("Conditional Flame Length Under Different Treatment Scenarios", gp = gpar(fontsize = 30)), padding = unit(2, "line"))
+```
+
+
+
+
+
+# Stats Results
+
+
+No Treatment:
+
+mean of No Treatment = 3.82 ft
+
+standard deviation of No Treatment is +/- 1.35 ft
+
+95% confidence interval is 3.76, 3.88
+
+
+Treatments:
+
+SDI 300
+
+```{r}
+mean(SDI260_Average$CFL)
+
+
+t.test(SDI260_Average$CFL)
+
+sd(SDI260_Average$CFL)
+
+mean(NT_Average$CFL)
+sd(NT_Average$CFL)
+
+t.test(Pri_Subset_Average$CFL, SDI260_Average$CFL, alternative = "two.sided")
+t.test(Pri_Subset_Average$CFL, SDI300_Average$CFL, alternative = "two.sided")
+
+
+```
+
+
+mean SDI 260 = 3.10 ft
+
+CI SDI 260= 3.07, 3.13 ft
+
+SD SDI 260 = 0.68 ft
+
+
+
+```{r}
+
+t.test(SDI300_Average$CFL,SDI260_Average$CFL)
+
+mean(SDI300_Average$CFL)
+
+
+t.test(SDI300_Average$CFL)
+
+sd(SDI300_Average$CFL)
+
+sd(SDI260_CFL_Reduction$CFL_Red)
+
+t.test(SDI260_CFL_Reduction$CFL_Red)
+
+sd(SDI300_CFL_Reduction$CFL_Red)
+
+t.test(SDI300_CFL_Reduction$CFL_Red)
+
+
+```
+
+
+mean SDI 300 = 3.08 ft
+
+CI SDI 260= 3.05, 3.11 ft
+
+SD SDI 260 = 0.67 ft
+
+
+Flame length reduction for 260 and for 300
+
+One-sided t test: reductions in flame length for SDI 300 were significanty greater than zero (mean reduction = 0.74ft, p < 0.05 (2.2e-16))
+
+One-sided t test: reductions in flame length for SDI 260 were signifcantly greater than zero (mean reduction = 0.72ft, p < 0.05 (2.2e-16))
+
+
+
+
+```{r}
+
+mean(Pri_Subset_Average$CFL)
+
+
+t.test(Pri_Subset_Average$CFL, NT_Average$CFL, alternative = "less")
+
+sd(Pri_Subset_Average$CFL)
+
+
+
+```
+
+mean of Prioritized = 3.093 ft 
+CI of Prioritized = 3.054965, 3.130810 ft
+SD of Prioritized = 0.8647 ft
+
+CFL of Prioritized significantly less than No Treatment (p < 2.2e-16)
+
+
+
+Pile Burns
+
+```{r}
+t.test(SDI_260_2018$CFL, NT_2018$CFL, alternative = "greater")
+t.test(SDI_300_2018$CFL, NT_2018$CFL, alternative = "greater")
+
+mean(SDI_260_2018$CFL)
+sd(SDI_260_2018$CFL)
+
+mean(SDI_300_2018$CFL)
+sd(SDI_300_2018$CFL)
+
+mean(NT_2018$CFL)
+sd(NT_2018$CFL)
+```
+
+
+CFL 260 in 2018 (before piles are burned) is significantly higher than NT 2018 (means: 3.344104  3.266216), p = 0.02515
+
+CFL 300 in 2018 (before piles are burned) is significantly higher than NT 2018 (means: 3.338746  3.266216), p = 0.03358
+
+
+
+
+T Test results for pile burns:
+
+
+```{r}
+
+t.test(Interyear_Diffs$Yr1, mu = 0, alternative = "greater")
+t.test(Interyear_Diffs$Yr2, mu = 0, alternative = "greater")
+t.test(Interyear_Diffs$Yr3, mu = 0, alternative = "greater")
+t.test(Interyear_Diffs$Yr4, mu = 0, alternative = "greater")
+t.test(Interyear_Diffs$Yr5, mu = 0, alternative = "greater")
+t.test(Interyear_Diffs$Yr6, mu = 0, alternative = "greater")
+t.test(Interyear_Diffs$Yr7, mu = 0, alternative = "greater")
+t.test(Interyear_Diffs$Yr8, mu = 0, alternative = "greater")
+
+```
+
+Change in flame length compared to just after pile burn not significantly greater than zero until Year 7 (the 8th year after treatment p = 0.0095) p value greater than 0.05 every year before then
+
+
+## CBA Stuff
+
+$ in millions
+
+```{r Import Data}
+
+TotalNPV <- read_csv("TotalNPV.csv")
+
+StakeholderNPV <- read_csv("StakeholderNPV.csv")
+
+```
+
+
+fig.height=3, fig.width=5.934
+
+
+-size of full graph
+- height: 5.21
+- width: 12.23
+    - ratio:2.347
+
+
+
+
+```{r Bar Graph, fig.height=3, fig.width=3.52}
+
+
+ggplot() +
+  geom_bar(aes(y = MeanNPV, x = Stakeholder, fill = Treatment), color ="black", data = StakeholderNPV, stat="identity", position = position_dodge(), width = 0.75) +
+  ggtitle("Value of Fuel Treatments \n by Treatment Type and Stakeholder") +
+  theme_bw() +
+  geom_hline(yintercept = 0) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(axis.text.x = element_text(size=14),
+        axis.text.y = element_text(size=14),  
+        axis.title.x = element_text(size=15),
+        axis.title.y = element_text(size=15)) +
+  theme(legend.position = c(0.8, 0.7)) +
+  theme(legend.text=element_text(size=14)) +  
+  theme(legend.background = element_rect(
+                                  size=0.5, linetype="solid", 
+                                  colour ="black")) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+ # scale_fill_manual(values = fill) +
+  ylab("Net Present Value ($ Millions)") +
+  scale_fill_manual(values = c("orange4", "skyblue3"),
+  name = "Treatment") +
+  scale_y_continuous(breaks=c(-400, -300, -200, -100, 0, 50)) +
+  scale_x_discrete(breaks=c("Private", "SRCD", "USFS"),
+                      labels=c("Private\nLandowner", "SRCD", "USFS"))
+
+ggplot() +
+  geom_bar(aes(y = TotalNPV, x = Discount_Rate, fill = Climate_Projection), color = "black", data = TotalNPV, stat="identity", position = position_dodge(), width = 0.75) +
+  ggtitle("Value of Mechanical Treatments \nUnder Different Scenarios") +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(axis.text.x = element_text(size=14),
+        axis.text.y = element_text(size=14),  
+        axis.title.x = element_text(size=15),
+        axis.title.y = element_text(size=15)) +
+  theme(legend.position = c(0.8, 0.7)) +
+  theme(legend.text=element_text(size=14)) +
+  theme(legend.background = element_rect(
+                                  size=0.5, linetype="solid", 
+                                  colour ="black")) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  geom_hline(yintercept = 0) +
+ # scale_fill_manual(values = fill) +
+  ylab("Net Present Value ($ Millions)") +
+  xlab("Discount Rate") +
+  scale_fill_manual(values = c("blue", "lightblue"),
+  name = "Climate Projection", labels = c("Cool Wet", "Cool Dry")) +
+  scale_x_discrete(breaks=c("Five_Percent", "Seven_Percent"),
+                      labels=c("5%", "7%")) 
+
+ # theme(legend.text = element_text(size=6)) 
+
+
+# change-legend size, title size, axis size 
+
+
+```
+SDI_260_VS_300_Dens <- ggplot(SDI_260_VS_300, aes(x = CFL, fill = Treatment, linetype = Treatment)) +
+  geom_density(size = 0.5, alpha = 0.5) +
+  theme_bw(base_size = 20) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_linetype_manual(name="Treatment", values = c("Prioritized Treatment" = "solid", "No Treatment" = "dotted", "SDI 300" = "solid", "SDI 260" = "solid")) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  scale_fill_manual(name="Treatment", values = c("SDI 300" = "cyan3", "SDI 260" = "purple")) +
+  scale_colour_manual(name="Treatment", values = c("SDI 300" = "cyan3", "SDI 260" = "purple")) +
+  scale_x_continuous(name = "Conditional Flame Length (ft)", breaks = c(0, 3, 6, 9, 12), limits=c(0, 12))  +
+  scale_y_continuous(breaks = c(0, 0.4, 0.8, 1.2), limits=c(0, 1.3)) +
+  theme(legend.position = c(0.8, 0.7)) +
+  theme(legend.background = element_rect(
+                                  size=0.5, linetype="solid", 
+                                  colour ="black"),
+        axis.title.x = element_text(size = 20),
+        axis.title.y = element_text(size = 20))
+
