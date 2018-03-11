@@ -11,8 +11,6 @@
 # Lives as lab_5 app
 
 
-
-
 # Final App, dashboard
 
 
@@ -60,7 +58,7 @@ pal <- colorNumeric(c("#0C2C84", "#41B6C4", "#FFFFCC"), values(tiff_stack),
 ui <- dashboardPage(
   
   
-  dashboardHeader(title = "Title"),
+  dashboardHeader(title = "Fire Severity"),
   
   
   dashboardSidebar(
@@ -88,22 +86,31 @@ ui <- dashboardPage(
                     sliderInput("bins",
                                 "Number of bins:",
                                 min = 1,
-                                max = 50,
+                                max = 100,
                                 value = 30),
                     selectInput(inputId = "bincolor",
                                 label = "Color",
-                                choices = c("firebrick", "forestgreen", "midnightblue"),
-                                selected = "firebrick"))
+                                choices = colors(),
+                                selected = "firebrick"),
+                    
+                    checkboxInput(inputId = "addmean",
+                                  label = "Add Mean Line?",
+                                  value = FALSE)),
+                tabBox(tabPanel("Summary", verbatimTextOutput("summary")))
               )),
       
       tabItem(tabName = "tab_2",
               fluidRow(
                 box(leafletOutput("my_graph2", height = 432)),
-                box(title = "Choose Map:",
+                box(title = "Dinkey Landscape Maps",
                     selectInput("class", 
                                 "Choose Map:", 
                                 choices = choice))
               ))
+      
+
+      
+
       
     )
     
@@ -136,9 +143,25 @@ server <- function(input, output){
     x    <- SDI260_CFL_Change$CFL_Change 
     bins <- seq(min(x), max(x), length.out = input$bins + 1)
     
+    output$summary <- renderPrint({
+      x <- SDI260_CFL_Change$CFL_Change             # Define x again
+      summary(x, digits = 3)
+    })
+    
     # draw the histogram with the specified number of bins
     hist(x, breaks = bins, border = 'white', col = input$bincolor, main = "Change in Fire Severity After Treatment", xlab = "Change in Conditional Flame Length (ft)")
+    if(input$addmean) {
+      
+      abline(v = mean(x),
+             lwd = 2,
+             lty = 2)
+      
+    }
+    
   })
+  
+  
+  
   
   output$my_graph2 <- renderLeaflet({
     
@@ -154,7 +177,7 @@ server <- function(input, output){
       addLegend (pal = pal, values = values(tiffmap),
                  title = "This is Map") %>% 
       addPolygons(color = "black",
-                  weight = 0.5)
+                  weight = 0.5, fill = NA)
     
 
     
@@ -162,7 +185,11 @@ server <- function(input, output){
   })
   
   
-}
+
+    
+  }
+  
+
   
   
   
