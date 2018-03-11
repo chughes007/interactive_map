@@ -67,8 +67,8 @@ ui <- dashboardPage(
     
     sidebarMenu(
       
-      menuItem("First Tab", tabName = "tab_1"),
-      menuItem("Second Tab", tabName = "tab_2")
+      menuItem("Fire Severity Histogram", tabName = "tab_1"),
+      menuItem("Static Maps", tabName = "tab_2")
       
   
       )
