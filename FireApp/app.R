@@ -84,12 +84,16 @@ ui <- dashboardPage(
       tabItem(tabName = "tab_1",
               fluidRow(
                 box(plotOutput("my_graph1", height = 342)), 
-                box(title = "Choose Color:", 
+                box(title = "Choose Bins:", 
                     sliderInput("bins",
                                 "Number of bins:",
                                 min = 1,
                                 max = 50,
-                                value = 30))
+                                value = 30),
+                    selectInput(inputId = "bincolor",
+                                label = "Color",
+                                choices = c("firebrick", "forestgreen", "midnightblue"),
+                                selected = "firebrick"))
               )),
       
       tabItem(tabName = "tab_2",
@@ -133,7 +137,7 @@ server <- function(input, output){
     bins <- seq(min(x), max(x), length.out = input$bins + 1)
     
     # draw the histogram with the specified number of bins
-    hist(x, breaks = bins, col = 'darkgray', border = 'white')
+    hist(x, breaks = bins, border = 'white', col = input$bincolor, main = "Change in Fire Severity After Treatment", xlab = "Change in Conditional Flame Length (ft)")
   })
   
   output$my_graph2 <- renderLeaflet({
