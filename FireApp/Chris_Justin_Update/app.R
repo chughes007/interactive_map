@@ -73,13 +73,11 @@ SDI260_CFL_Change <- Subset_2000 %>%
   select(CFL_Change)
 
 
-choice <- c("standras", "aspectras30", "SlopTeal30d")
+choice <- c("Aspect", "Slope", "Elevation")
 
-standras <- raster("standras.tif")
 
-aspectras30 <- raster("aspectras30.tif")
 
-tiff_stack <- raster::stack("standras.tif", "aspectras30.tif", "SlopTeal30d.tif")
+tiff_stack <- raster::stack("Aspect.tif", "Slope.tif", "Elevation.tif")
 
 private <- st_read(dsn = ".", layer = "Private_Parcels")
 
@@ -89,9 +87,6 @@ private_tclass <- private_t %>%
   select(Stand_Id)
 
 
-
-pal <- colorNumeric(c("#0C2C84", "#41B6C4", "#FFFFCC"), values(tiff_stack),
-                    na.color = "transparent")
 
 # Adapting this for my data
 
@@ -110,7 +105,7 @@ ui <- dashboardPage(
     sidebarMenu(
       
       menuItem("Fire Severity Histogram", tabName = "tab_1"),
-      menuItem("Static Maps", tabName = "tab_2"),
+      menuItem("Topographical Information", tabName = "tab_2"),
       menuItem("Fire History", tabName = "tab_3"),
       menuItem("Forest Cover", tabName = "tab_4")
   
@@ -205,6 +200,9 @@ server <- function(input, output){
     
     tiffmap <- subset(tiff_stack, input$class, drop=TRUE)
     
+    
+    pal <- colorNumeric(c("#0C2C84", "#41B6C4", "#FFFFCC"), values(tiffmap),
+                        na.color = "transparent")
     #leaflet(private_tclass) %>% 
     #addTiles() %>% 
     
