@@ -90,17 +90,12 @@ ui <- dashboardPage(
                                 value = 30),
                     selectInput(inputId = "bincolor",
                                 label = "Color",
-<<<<<<< HEAD
                                 choices = colors(),
                                 selected = "firebrick"),
                     
                     checkboxInput(inputId = "addmean",
                                   label = "Add Mean Line?",
                                   value = FALSE)),
-=======
-                                choices = c("firebrick", "forestgreen", "midnightblue"),
-                                selected = "firebrick")),
->>>>>>> 5bcde9f2ea610b9cbbc228797cb75d9d2627422f
                 tabBox(tabPanel("Summary", verbatimTextOutput("summary")))
               )),
       
