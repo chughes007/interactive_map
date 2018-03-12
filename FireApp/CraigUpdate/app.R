@@ -19,7 +19,7 @@ library(sp)
 library(raster)
 library(tidyverse)
 
-private_cfl <- st_read(dsn = "G:/ShinyApp/FireApp/CraigUpdate", layer = "private_cfls")
+private_cfl <- st_read(dsn = '.', layer = "private_cfls")
 
 private_tcfl <- st_transform(private_cfl, "+init=epsg:4326") %>% 
   select(CFL_Cat_30, NoTreatSev, IgnitGA25, geometry)
@@ -41,7 +41,7 @@ color <- colorFactor(palette = "Reds",
                      na.color = "transparent")
 
 
-dinkey_boundary <- st_read(dsn = "G:/ShinyApp/FireApp", layer = "DinkeyBoundary")
+dinkey_boundary <- st_read(dsn = '.', layer = "DinkeyBoundary")
 dinkey_df <- st_transform(dinkey_boundary, "+init=epsg:4326")
 
 
