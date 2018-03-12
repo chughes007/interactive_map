@@ -102,7 +102,7 @@ pal <- colorNumeric(c("#0C2C84", "#41B6C4", "#FFFFCC"), values(tiff_stack),
 ui <- dashboardPage(
   
   
-  dashboardHeader(title = "Justin's Tabs"),
+  dashboardHeader(title = "Saving Sierras App"),
   
   
   dashboardSidebar(
