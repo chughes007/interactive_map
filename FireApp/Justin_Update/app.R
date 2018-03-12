@@ -62,11 +62,8 @@ dinkey_df <- st_transform(dinkey_boundary, "+init=epsg:4326")
 SAFNames <- unique(SAF_class$SAF_Name)
 palrainbow <- colorFactor(palette = rainbow(18), domain = SAFNames)
 
-RegNames <- unique(veg_name$Name)
-palrainbow_regdom <- colorFactor(palette = rainbow(51), domain = RegNames)
-
 RegimeNames <- unique(fireregime$FireRegime)
-palfireregime <- colorFactor(c("brown", "yellow","orange","red", "grey", "lightblue"), RegimeNames[1:6])
+palfireregime <- colorFactor(palette = c("burlywood4", "yellow","orange","red", "darkgrey", "deepskyblue"), domain = RegimeNames)
 
 
 # Adapting this for my data
@@ -78,7 +75,7 @@ palfireregime <- colorFactor(c("brown", "yellow","orange","red", "grey", "lightb
 ui <- dashboardPage(
   
   
-  dashboardHeader(title = "Title"),
+  dashboardHeader(title = "Justin's Tabs"),
   
   
   dashboardSidebar(
@@ -94,7 +91,7 @@ ui <- dashboardPage(
   
   
   dashboardBody(
-    
+    tabItems(
 
       tabItem(tabName = "tab_3",
               fluidRow(
@@ -114,7 +111,7 @@ ui <- dashboardPage(
               )
       )
     )
-  
+)
 
     
   
