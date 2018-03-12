@@ -86,6 +86,35 @@ private_t <- st_transform(private, "+init=epsg:4326")
 private_tclass <- private_t %>% 
   select(Stand_Id)
 
+# next, craig's data
+
+
+
+private_cfl <- st_read(dsn = '.', layer = "private_cfls")
+
+private_tcfl <- st_transform(private_cfl, "+init=epsg:4326") %>% 
+  select(CFL_Cat_30, NoTreatSev, IgnitGA25, geometry)
+
+Treatment <- private_tcfl%>% 
+  select(CFL_Cat_30) %>% 
+  mutate("Treated")
+colnames(Treatment) <- c("Severity", "Treatment", "geometry")
+
+NoTreatment <- private_tcfl%>% 
+  select(NoTreatSev) %>% 
+  mutate("UnTreated")
+colnames(NoTreatment) <- c("Severity", "Treatment", "geometry")
+
+DataT <- rbind(NoTreatment, Treatment)
+
+color <- colorFactor(palette = "Reds", 
+                     domain = c(0,1,2,3,4,5,6), 
+                     na.color = "transparent")
+
+
+dinkey_boundary <- st_read(dsn = '.', layer = "DinkeyBoundary")
+dinkey_df <- st_transform(dinkey_boundary, "+init=epsg:4326")
+
 
 
 # Adapting this for my data
@@ -107,7 +136,8 @@ ui <- dashboardPage(
       menuItem("Fire Severity Histogram", tabName = "tab_1"),
       menuItem("Topographical Information", tabName = "tab_2"),
       menuItem("Fire History", tabName = "tab_3"),
-      menuItem("Forest Cover", tabName = "tab_4")
+      menuItem("Forest Cover", tabName = "tab_4"),
+      menuItem("Fire Severity on Private Lands", tabName = "tab_5")
   
       )
       
@@ -161,7 +191,19 @@ ui <- dashboardPage(
                 box(leafletOutput("my_graph4", height = 700, width = 700))
               )
       
+              ),
+      
+      tabItem(tabName = "tab_5",
+              fluidRow(
+                box(leafletOutput("my_graph5", height = 432)),
+                box(title = "Private Lands Fire Severity",
+                    selectInput("treatment", 
+                                "Choose Treatment Type:", 
+                                choices = unique(DataT$Treatment)))
               )
+      )
+      
+      
       )
     )
 )
@@ -273,6 +315,26 @@ server <- function(input, output){
       
       
     })
+  
+  output$my_graph5 <- renderLeaflet({
+    private_map <- DataT %>%
+      filter(Treatment == input$treatment)
+    
+    leaflet(private_map) %>% 
+      addTiles() %>% 
+      addPolygons(weight = 0.5,
+                  color = "Black",
+                  fillColor = ~color(private_map$Severity),
+                  fillOpacity = .9) %>%
+      addPolygons(data = dinkey_df,
+                  weight = 2.0,
+                  color = "Grey",
+                  fillColor = "Transparent",
+                  opacity = 1.0) %>% 
+      addLegend (pal = color, values = DataT$Severity,
+                 title = "Fire Severity Level",
+                 opacity = 1.0)
+  })
   
 }
   
