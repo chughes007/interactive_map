@@ -175,7 +175,7 @@ server <- function(input, output){
       addTiles() %>% 
       addRasterImage(tiffmap, colors = pal, opacity = 0.8) %>% 
       addLegend (pal = pal, values = values(tiffmap),
-                 title = "This is Map") %>% 
+                 title = input$class) %>% 
       addPolygons(color = "black",
                   weight = 0.5, fill = NA)
     
